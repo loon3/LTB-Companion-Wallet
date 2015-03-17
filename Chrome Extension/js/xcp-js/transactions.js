@@ -28,6 +28,17 @@ function hex_byte() {
    
 }
 
+function isDivisible(asset) {
+    var source_html = "http://xcp.blockscan.com/api2?module=asset&action=info&name="+asset;
+    
+    
+    
+    $.getJSON( source_html, function( data ) {
+        console.log(data.data[0].divisible);
+    });
+    
+}
+
 function assetid(asset_name) {
 
     var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 

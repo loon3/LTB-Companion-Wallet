@@ -102,7 +102,7 @@ function getPrimaryBalanceXCP(pubkey, currenttoken) {
             var assetname = data.data[0].asset;   
         //    if (assetname == currenttoken){                
                 var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance);   
-                $("#xcpbalance").html(assetbalance + "<br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
+                $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span><span id='isdivisible'></div>");
                 getRate(assetbalance, pubkey, currenttoken);
                      
         //    }

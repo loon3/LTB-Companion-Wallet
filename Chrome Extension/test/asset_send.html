@@ -36,12 +36,17 @@ $( document ).ready(function() {
         
         var divisible = $("#divisible").val();  //is asset divisible?
         
+//        if (isDivisible(asset) == "False") {
+//            asset_total = parseFloat(asset_total) / 100000000;
+//        }
+        
         if (divisible == "false") {
             asset_total = parseFloat(asset_total) / 100000000;
         }
         
+        console.log(asset_total);
         
-        sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, transfee, mnemonic);
+        //sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, transfee, mnemonic);
          
     });
 
