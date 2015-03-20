@@ -36,12 +36,23 @@ function getStorage()
 }
 
 
-    
+//function getBlockHeight(){
+//     var source_html = "https://insight.bitpay.com/api/sync";
+//       
+//    $.getJSON( source_html, function( data ) {
+//    
+//        var block = data.blockChainHeight;
+//        return block;
+//        
+//    });
+//}
 
 
 function showBTCtransactions(transactions) {
             
-            $("#btcbalance").html("<div style='font-size: 12px;'>You can perform "+transactions.toFixed(0)+" transactions</div><div id='depositBTC' align='center' style='margin: 5px; cursor: pointer; text-decoration: underline; font-size: 11px; color: #999;'>Deposit bitcoin for transaction fees</div>");
+            //$("#btcbalance").html("<div style='font-size: 12px;'>You can perform "+transactions.toFixed(0)+" transactions</div><div id='depositBTC' align='center' style='margin: 5px; cursor: pointer; text-decoration: underline; font-size: 11px; color: #999;'>Deposit bitcoin for transaction fees</div>");
+    
+            $("#btcbalance").html("<div style='font-size: 12px;'>You can perform <span id='txsAvailable'>"+transactions.toFixed(0)+"</span> transactions</div>");
         
             //var titletext = data + " satoshis";
 
@@ -80,29 +91,54 @@ function getBTCBalance(pubkey) {
         
         var transactions = (parseFloat(data) / 15470) ;
         
-        if (transactions >= 2) {// to include escrow amount req'd and tx fee
+        //if (transactions >= 2) {// to include escrow amount req'd and tx fee
         
            showBTCtransactions(transactions);
             
-        } else {
-            
-           qrdepositDropdown(); 
-            
-        }
+        //} 
+        
+//        else {
+//            
+//           qrdepositDropdown(); 
+//            
+//        }
         
     });
 }
 
 function getPrimaryBalanceXCP(pubkey, currenttoken) {
+    
+//    var source_html = "https://insight.bitpay.com/api/sync";
+//       
+//    $.getJSON( source_html, function( data ) {
+//    
+//        var block = data.blockChainHeight;
+//              
+//    });
+    
+    
+//    chrome.storage.local.get('unconfirmedtx', function (data)
+//        {
+//            if(isset(data)){
+//                $.each(data.tx
+//        }, function(){
+//        
+//        });
+    //console.log(pubkey);
+    //console.log(currenttoken);
+    
     var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+pubkey+"&asset="+currenttoken;
     
     $.getJSON( source_html, function( data ) {       
 
+        //console.log(data);
        // $.each(data.data, function(i, item) {
-            var assetname = data.data[0].asset;   
-        //    if (assetname == currenttoken){                
+           // var assetname = data.data[0].asset;   
+        //    if (assetname == currenttoken){  
+  
                 var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance);   
-                $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span><span id='isdivisible'></div>");
+                $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
+                $('#assetbalhide').html(assetbalance);
                 getRate(assetbalance, pubkey, currenttoken);
                      
         //    }
@@ -111,7 +147,8 @@ function getPrimaryBalanceXCP(pubkey, currenttoken) {
     });
     
     if (typeof assetbalance === 'undefined') {
-            $("#xcpbalance").html("0<br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
+            $("#xcpbalance").html("<span id='currentbalance'>0</span><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
+            $('#assetbalhide').html(0);
             getRate(0, pubkey, currenttoken);
     }
 }
@@ -126,11 +163,11 @@ function getPrimaryBalanceBTC(pubkey){
         
         $("#xcpbalance").html(bitcoinparsed + "<br><div style='font-size: 22px; font-weight: bold;'>BTC</div>");
         
-        if (bitcoinparsed.toFixed(8) == 0) {
-            $("#btcsendbox").hide();
-        } else {
-            $("#btcsendbox").show();
-        }
+//        if (bitcoinparsed.toFixed(8) == 0) {
+//            $("#btcsendbox").hide();
+//        } else {
+//            $("#btcsendbox").show();
+//        }
         
         getRate(bitcoinparsed, pubkey, "BTC");
         
@@ -142,7 +179,7 @@ function getPrimaryBalance(pubkey){
     
     $("#btcsendbox").hide();
     
-    var currenttoken = $("#currenttoken").html();
+    var currenttoken = $(".currenttoken").html();
    
     if (currenttoken != "BTC") {
         
@@ -329,7 +366,11 @@ function manualPassphrase() {
 
 function loadAssets(add) {
     
-    var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
+    //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
+    
+    var source_html = "https://counterpartychain.io/api/balances/"+add;
+    
+    
     
     $.getJSON( source_html, function( data ) {
         
@@ -340,9 +381,12 @@ function loadAssets(add) {
         
         $.each(data.data, function(i, item) {
             var assetname = data.data[i].asset;
-            var assetbalance = data.data[i].balance;
-    
-            var assethtml = "<div class='singleasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div></div>";
+            var assetbalance = data.data[i].amount;
+            if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+            
+            if (assetname.charAt(0) != "A") {
+                var assethtml = "<div class='singleasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
+            } 
     
             $( "#allassets" ).append( assethtml );
 
@@ -430,6 +474,40 @@ function loadAssets(add) {
     
     		}
 
+
+
+//function setUnconfirmed(sendasset, sendamount) {
+//
+//    var currentbalance = parseFloat($("#assetbalhide").html());
+//    
+//    var source_html = "https://insight.bitpay.com/api/sync";
+//       
+//    $.getJSON( source_html, function( data ) {
+//    
+//        var block = data.blockChainHeight;
+//        var finalbalance = currentbalance - parseFloat(sendamount);
+//    
+//        var tx = {block: block, asset: sendasset, txamount: sendamount};
+//        
+//        
+//        console.log(tx);
+//        
+//        
+//        
+//        chrome.storage.local.set(
+//            {      
+//                'unconfirmedtx': tx
+//                        
+//            }, function () {
+//                
+//                $("#currentbalance").html(tx.finalbalance);
+//                $("#assetbalhide").html(tx.finalbalance);
+//                $("#blockheighthide").html(tx.block);
+//                    
+//            });
+//    });
+//
+//}
 
 
  

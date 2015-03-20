@@ -10,6 +10,13 @@
     <script type="text/javascript" language="Javascript" src="js/bootstrap.min.js"></script>
     <script src="js/aes.js"></script>
     <script src="js/utxo.js"></script>
+    
+    
+    
+    <script src="js/xcp-js/transactions.js"></script>
+    <script src="js/xcp-js/rc4.js"></script>
+    <script src="js/xcp-js/convert-type.js"></script>
+    <script src="js/xcp-js/decode.js"></script>
     <script src="popup.js"></script>
 
     
@@ -42,12 +49,17 @@
             <p class="lead">Enter Password:</p>
             <div style="width: 100%; padding: 10px 0 30px 0;"><input type="password" style="text-align: center;" class="form-control" id="inputPin"></div>
             <div align="center"><button id="pinButton" type="submit" class="btn btn-primary">Open Wallet</button></div>
+            
             </form>
             <!--<div align="center" style="margin-top: 80px;"><button id="pinButton" class="btn btn-xs btn-danger resetAddress">Reset Wallet Passphrase</button></div>-->
         </div>
        
-        <div id="currenttoken" style="display: none;">LTBCOIN</div>
+        <div class="currenttoken" style="display: none;">LTBCOIN</div>
         <div id="btcbalhide" style="display: none;">0</div>
+        <div id="assetbalhide" style="display: none;">0</div>
+        <div id="blockheighthide" style="display: none;">0</div>
+        
+        
 	   <div role="tabpanel">
 
   <!-- Nav tabs -->
@@ -63,6 +75,7 @@
     <div role="tabpanel" class="tab-pane active" id="walletPage">
         
         
+        
         <div id="balanceBox" class="innershadow">
 			<span id="xcpbalance" style="font-size:28px">Loading...</span> 
 		</div>
@@ -71,6 +84,9 @@
             <div id="fiatvaluebox" style="margin-top: 6px;">($<div style="display: inline-block;" id="xcpfiatValue"></div>)</div>
             <div id="switchtoxcp">Switch to LTBCOIN</div>
         </div>
+        
+        
+    
         
 		<div id="addressBox">           
             <div id="xcpaddressTitle">Your Wallet Address</div>
@@ -82,13 +98,25 @@
         <div align="center" style="width: 300px;">
             <select id="walletaddresses" class="addressselect form-control" style="font-size: 12px;"></select>
         </div>
-          
+        
+        
+        <div id="transTools">
+        <div class="row">
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-success btn-sm btn-block" id="sendAssetButton">Send</button>
+            </div>
+            <div class="col-xs-6">
+                <button type="button" class="btn btn-primary btn-sm btn-block" id="depositBTC">Deposit</button>
+            </div>
+        </div>
+        </div>
             
 		
         <div id="btcbalbox" class="whitebox">
             <div id="btcbalance"></div>
         </div>  
 
+        
         <div id="btcsendbox">
         <div class="inputtitle">Send to:</div>
         <div align="center" style="width: 100%; padding: 0 5px 0 5px; margin-bottom: 10px;"><input type="text" class="form-control" id="sendtoaddress" placeholder="Receiving Address"></div>
@@ -96,9 +124,11 @@
         
         <div style="padding: 0 5px 0 5px;">
         <div align="center" style="width: 100%; margin-bottom: 15px;"><input type="text" class="form-control" id="sendtoamount" placeholder="Enter Amount"></div>
-        <div align="center"><button id="sendtokenbutton" class="btn btn-default btn-block btn-lg">Send Token</button></div>
+        <div align="center"><button id="sendtokenbutton" class="btn btn-success btn-block btn-sm">Send <span class="currenttoken">LTBCOIN</span></button></div>
         </div>
         </div>
+        
+        
         
     </div>
     <div role="tabpanel" class="tab-pane" id="inventoryPage">

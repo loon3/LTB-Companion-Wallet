@@ -132,6 +132,13 @@ $( document ).ready(function() {
             }    
         });
     
+    $('#sendAssetButton').click( function () {
+        $("#btcsendbox").toggle();
+        if($("#moreBTCinfo").is(":visible")) {
+            $("#moreBTCinfo").hide();
+        }
+    });
+    
     $('#manualAddressButton').click( function ()
         {
             manualPassphrase();
@@ -139,10 +146,16 @@ $( document ).ready(function() {
  
       $(document).on("click", '#depositBTC', function (event)
   {
-    
+            if($("#btcsendbox").is(":visible")) {
+                $("#btcsendbox").hide();
+            }
+      
+      
         if ($("#moreBTCinfo").length){
           
             $("#moreBTCinfo").toggle();
+            
+            
           
         } else {
       
@@ -165,6 +178,8 @@ $( document ).ready(function() {
   {
       $("#sendtokenbutton").html("Send Token");
       $("#sendtokenbutton").prop('disabled', false);
+      $("#sendtoaddress").prop('disabled', false);
+      $("#sendtoamount").prop('disabled', false);
       
       $("#sendtoaddress").val("");
       $("#sendtoamount").val("");
@@ -174,7 +189,7 @@ $( document ).ready(function() {
       
       
       var pubkey = $("#xcpaddress").html();
-      var currenttoken = $("#currenttoken").html();
+      var currenttoken = $(".currenttoken").html();
       
       getRate(array[0], pubkey, currenttoken);
       
@@ -183,7 +198,7 @@ $( document ).ready(function() {
     
   $('#switchtoxcp').click(function ()
   {
-      $("#currenttoken").html("LTBCOIN");     
+      $(".currenttoken").html("LTBCOIN");     
       var pubkey = $("#xcpaddress").html();
       getPrimaryBalance(pubkey);
       $('#allTabs a:first').tab('show');
@@ -217,8 +232,8 @@ $( document ).ready(function() {
   
       var $assetdiv = $( this ).prev();
       var currentasset = $assetdiv.html();
-      $("#currenttoken").html(currentasset);
-      //$("#currenttoken").html("WORKS");
+      $(".currenttoken").html(currentasset);
+      //$(".currenttoken").html("WORKS");
       
       
       var pubkey = $("#xcpaddress").html();
@@ -297,12 +312,13 @@ $( document ).ready(function() {
             $("#sendtokenbutton").html("Sending...");
             $("#sendtokenbutton").prop('disabled', true);
             
+            
             var assetbalance = $("#xcpbalance").html();
             var array = assetbalance.split(" ");
             var currentbalance = parseFloat(array[0]);
       
             var pubkey = $("#xcpaddress").html();
-            //var currenttoken = $("#currenttoken").html();
+            var currenttoken = $(".currenttoken").html();
             
             var sendtoaddress = $("#sendtoaddress").val();
             var sendtoamount_text = $("#sendtoamount").val();
@@ -314,24 +330,44 @@ $( document ).ready(function() {
      
             if (bitcore.Address.isValid(sendtoaddress)){
                 
-                if (isNaN(sendtoamount) == true) {
+                if (isNaN(sendtoamount) == true || sendtoamount <= 0 || $.isNumeric( sendtoamount ) == false) {
                 
                     $("#sendtoamount").val("Invalid Amount");
+                    $("#sendtokenbutton").html("Refresh to continue");
                 
                 } else {
             
-                    if (totalsend > currentbalance || totalsend < minersfee) {
+                    if (totalsend > currentbalance) {
             
                         $("#sendtoamount").val("Insufficient Funds");
+                        $("#sendtokenbutton").html("Refresh to continue");
                 
                     } else {
-                
-                        sendBTC(pubkey, sendtoaddress, sendtoamount, minersfee);
                         
-                         $("#sendtoaddress").val("");
-                         $("#sendtoamount").val("");
+                        var txsAvailable = $("#txsAvailable").html();
+                        
+                        if (currenttoken == "BTC") {
+                    
+                            sendBTC(pubkey, sendtoaddress, sendtoamount, minersfee);
+                        
+                        } else if (txsAvailable > 1) {
+                            
+                            var btc_total = 0.0000547;  //total btc to receiving address
+                            var msig_total = 0.000078;  //total btc to multisig output (returned to sender)
+                            var mnemonic = $("#newpassphrase").html();
+                            
+                            $("#sendtokenbutton").html("Sending...");
+                            
+                            //sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
+                            
+                            //setUnconfirmed(currenttoken, sendtoamount);
+                            
+                        }
+                        
+                         $("#sendtoaddress").prop('disabled', true);
+                         $("#sendtoamount").prop('disabled', true);
                 
-                        $("#sendtokenbutton").html("Sent! Refresh to continue...");
+                        //$("#sendtokenbutton").html("Sent! Refresh to continue...");
                 
                     }
                 
@@ -340,12 +376,37 @@ $( document ).ready(function() {
             } else {
                 
                 $("#sendtoaddress").val("Invalid Address");
+                $("#sendtokenbutton").html("Refresh to continue");
                 
             }
             
             
             
         });
+    
+    $(document).on("keyup", '#sendtoamount', function (event)
+    { 
+        var sendamount = parseFloat($("#sendtoamount").val());
+        var currentbalance = parseFloat($("#assetbalhide").html());
+        
+        //console.log(sendamount);
+        //console.log(currentbalance);
+        
+        if (sendamount > currentbalance) {
+            $('#sendtokenbutton').prop('disabled', true);
+       	} else {
+            $("#sendtokenbutton").removeAttr("disabled");
+        }
+        
+        
+        
+    });
+    
+    
+    
+    
+                
+    
 
        
 });

@@ -4,10 +4,10 @@ function randomIntFromInterval(min,max) {
     
 }
 
-function pad(str, max) {   
+function padprefix(str, max) {   
     
     str = str.toString();
-    return str.length < max ? pad("0" + str, max) : str;   
+    return str.length < max ? padprefix('0' + str, max) : str;   
     
 }
 
@@ -28,30 +28,40 @@ function hex_byte() {
    
 }
 
-function isDivisible(asset) {
-    var source_html = "http://xcp.blockscan.com/api2?module=asset&action=info&name="+asset;
-    
-    
-    
-    $.getJSON( source_html, function( data ) {
-        console.log(data.data[0].divisible);
-    });
-    
-}
+//function isDivisible(asset) {
+//    var source_html = "http://xcp.blockscan.com/api2?module=asset&action=info&name="+asset;
+//    
+//    
+//    
+//    $.getJSON( source_html, function( data ) {
+//        console.log(data.data[0].divisible);
+//    });
+//    
+//}
 
 function assetid(asset_name) {
+    
+    //asset_name.toUpperCase();
 
-    var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
-    var name_array = asset_name.split("");
+    if (asset_name != "XCP"){
     
-    var n = 0;
+        var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+        var name_array = asset_name.split("");
     
-    for (i = 0; i < name_array.length; i++) { 
-        n *= 26;
-        n += b26_digits.indexOf(name_array[i]);
-    }    
+        var n = 0;
+    
+        for (i = 0; i < name_array.length; i++) { 
+            n *= 26;
+            n += b26_digits.indexOf(name_array[i]);
+        }    
      
-    var asset_id = n;
+        var asset_id = n;
+    
+    } else {
+        
+        var asset_id = 1;
+        
+    }
     
     return asset_id;
     
@@ -63,8 +73,8 @@ function create_xcp_send_data(asset_name, amount) {
     var trailing_zeros = "000000000000000000000000000000000000000000000000000000000000000000";
     var asset_id = assetid(asset_name); 
     
-    var asset_id_hex = pad(asset_id.toString(16), 16);
-    var amount_hex = pad((amount*100000000).toString(16), 16)
+    var asset_id_hex = padprefix(asset_id.toString(16), 16);
+    var amount_hex = padprefix((amount*100000000).toString(16), 16);
                                
     var data = prefix + asset_id_hex + amount_hex + trailing_zeros; 
     
@@ -192,6 +202,9 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
         }
     
         var datachunk_unencoded = create_xcp_send_data(asset, asset_total);
+        
+        console.log(datachunk_unencoded);
+        
         var datachunk_encoded = xcp_rc4(utxo_key, datachunk_unencoded);
         var address_array = addresses_from_datachunk(datachunk_encoded);
         
@@ -226,8 +239,8 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
         
         console.log(final_trans);
         
-        $("#raw").html(final_trans);   
-        //sendBTCpush(final_trans);  //uncomment to push raw tx to the bitcoin network
+        //$("#raw").html(final_trans);   
+        sendBTCpush(final_trans);  //uncomment to push raw tx to the bitcoin network
 
     });
     
