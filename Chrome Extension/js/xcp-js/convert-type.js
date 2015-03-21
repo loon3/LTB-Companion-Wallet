@@ -32,3 +32,10 @@ function bin2hex(s) {
         return o;
     
 }; 
+
+function reverseBytes(s) {
+    var a = s.match(/../g);             // split number in groups of two
+    a.reverse();                        // reverse the groups
+    var s2 = a.join("");
+    return s2;
+}

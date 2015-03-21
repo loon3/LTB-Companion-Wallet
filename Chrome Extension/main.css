@@ -69,6 +69,17 @@ body
     padding: 0 20px 0 20px;
 }
 
+
+#freezeUnconfirmed
+{
+
+	display: none;
+    text-align: center;
+    padding-top: 12px;
+    margin-bottom: -10px;
+
+}
+
 #balanceBox
 {
 	background-color: #fafafa;
@@ -79,6 +90,7 @@ body
 	border-radius: 5px;
 	text-align: center;
 	margin: 10px 5px 10px 5px;
+    z-index: 0;
 }
 
 #btcsendbox

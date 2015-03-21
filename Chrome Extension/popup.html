@@ -57,7 +57,7 @@
         <div class="currenttoken" style="display: none;">LTBCOIN</div>
         <div id="btcbalhide" style="display: none;">0</div>
         <div id="assetbalhide" style="display: none;">0</div>
-        <div id="blockheighthide" style="display: none;">0</div>
+        <div class="unconfirmedbal" style="display: none;"></div>
         <div id="isdivisible" style="display: none;">yes</div>
         
         
@@ -78,7 +78,15 @@
         
         
         <div id="balanceBox" class="innershadow">
-			<span id="xcpbalance" style="font-size:28px">Loading...</span> 
+			
+            <div id="mainDisplay">
+                <span id="xcpbalance" style="font-size:28px">Loading...</span>
+            </div>
+            
+            <div id="freezeUnconfirmed">
+                <div>Balance will update after one confirmation</div>
+                <div style='padding-top: 6px;' id="yourtxid" class="lead"></div>
+		    </div>
 		</div>
         
         <div align="center">

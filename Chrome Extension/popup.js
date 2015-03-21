@@ -148,9 +148,12 @@ function getPrimaryBalanceXCP(pubkey, currenttoken) {
                 } else {
                     $("#isdivisible").html("no");
                 }
+                
+                assetbalance = parseFloat(assetbalance).toString(); 
+                
   
                 //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance);   
-                $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
+                $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><span class='unconfirmedbal'></span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
                 $('#assetbalhide').html(assetbalance);
                 getRate(assetbalance, pubkey, currenttoken);
                      
@@ -160,7 +163,7 @@ function getPrimaryBalanceXCP(pubkey, currenttoken) {
     });
     
     if (typeof assetbalance === 'undefined') {
-            $("#xcpbalance").html("<span id='currentbalance'>0</span><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
+            $("#xcpbalance").html("<span id='currentbalance'>0</span><span class='unconfirmedbal'></span><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
             $('#assetbalhide').html(0);
             getRate(0, pubkey, currenttoken);
     }
@@ -489,38 +492,35 @@ function loadAssets(add) {
 
 
 
-//function setUnconfirmed(sendasset, sendamount) {
-//
+//function setUnconfirmed(sendaddress, sendasset, sendamount) {
+//    
 //    var currentbalance = parseFloat($("#assetbalhide").html());
+//    var finalbalance = currentbalance - parseFloat(sendamount);
+//    var unconfirmedamt = parseFloat(sendamount)*(-1);
 //    
-//    var source_html = "https://insight.bitpay.com/api/sync";
-//       
-//    $.getJSON( source_html, function( data ) {
+//    $(".unconfirmedbal").html("("+unconfirmedamt+")");
 //    
-//        var block = data.blockChainHeight;
-//        var finalbalance = currentbalance - parseFloat(sendamount);
+//    var tx = {asset: sendasset, txamount: sendamount};
 //    
-//        var tx = {block: block, asset: sendasset, txamount: sendamount};
+//    var txfinal = {address: sendaddress, tx: tx};
+//      
+//    chrome.storage.local.get(function(data) {
+//        if(typeof(data["unconfirmedtx"]) !== 'undefined' && data["unconfirmedtx"] instanceof Array) { 
+//            data["unconfirmedtx"].push(txfinal);
+//        } else {
+//            data["unconfirmedtx"] = [txfinal];
+//        }
+//        
+//        chrome.storage.local.set(data); 
 //        
 //        
-//        console.log(tx);
 //        
-//        
-//        
-//        chrome.storage.local.set(
-//            {      
-//                'unconfirmedtx': tx
-//                        
-//            }, function () {
-//                
-//                $("#currentbalance").html(tx.finalbalance);
-//                $("#assetbalhide").html(tx.finalbalance);
-//                $("#blockheighthide").html(tx.block);
-//                    
-//            });
 //    });
 //
 //}
+
+
+
 
 
  

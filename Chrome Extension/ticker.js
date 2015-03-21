@@ -2,6 +2,12 @@ var bitcore = require('bitcore');
 
 $( document ).ready(function() {
     
+    
+    $('#yourtxid').on('click', 'a', function(){
+     chrome.tabs.create({url: $(this).attr('href')});
+     return false;
+   });
+    
     $("#pinsplash").hide();
     
     
@@ -176,6 +182,10 @@ $( document ).ready(function() {
  
   $(document).on("click", '#refreshWallet', function (event)
   {
+      
+      $("#freezeUnconfirmed").css("display", "none");
+      $("#mainDisplay").css("display", "block");
+      
       $("#sendtokenbutton").html("Send Token");
       $("#sendtokenbutton").prop('disabled', false);
       $("#sendtoaddress").prop('disabled', false);
@@ -367,7 +377,7 @@ $( document ).ready(function() {
                             
                             sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
                             
-                            //setUnconfirmed(currenttoken, sendtoamount);
+                            //setUnconfirmed(pubkey, currenttoken, sendtoamount);
                             
                         }
                         

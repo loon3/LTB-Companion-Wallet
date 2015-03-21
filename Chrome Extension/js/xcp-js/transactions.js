@@ -28,16 +28,15 @@ function hex_byte() {
    
 }
 
-//function isDivisible(asset) {
-//    var source_html = "http://xcp.blockscan.com/api2?module=asset&action=info&name="+asset;
-//    
-//    
-//    
-//    $.getJSON( source_html, function( data ) {
-//        console.log(data.data[0].divisible);
-//    });
-//    
-//}
+function rawtotxid(raw) {
+
+    var firstSHA = Crypto.SHA256(Crypto.util.hexToBytes(raw))
+    var secondSHA = Crypto.SHA256(Crypto.util.hexToBytes(firstSHA))    
+   
+    return reverseBytes(secondSHA);  
+
+}
+
 
 function assetid(asset_name) {
     
@@ -237,14 +236,9 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
 
         var final_trans = transaction.serialize();
         
-        console.log(final_trans);
-        
-        //var newtxid = new bitcore.crypto.Hash.sha256(bitcore.crypto.Hash.sha256(final_trans));
-        
-        //console.log(newtxid)
-        
-        //$("#raw").html(final_trans);   
-        sendBTCpush(final_trans);  //uncomment to push raw tx to the bitcoin network
+        console.log(final_trans);   
+       
+        sendBTCpush(final_trans);  //push raw tx to the bitcoin network via Blockchain.info
 
     });
     

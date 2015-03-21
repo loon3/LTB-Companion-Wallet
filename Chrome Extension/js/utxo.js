@@ -1,5 +1,5 @@
 
-function ajax(url, data) {
+function ajax(url, data, rawtx) {
     var xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4) {
@@ -7,6 +7,13 @@ function ajax(url, data) {
             
             $("#sendtokenbutton").html("Sent! Refresh to continue...");
             //$("#sendtokenbutton").prop('disabled', true);
+            
+            var newTxid = rawtotxid(rawtx);
+            
+            console.log(newTxid);
+            $("#freezeUnconfirmed").css("display", "block");
+            $("#mainDisplay").css("display", "none");
+            $("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
             
             xhr.close;
         }
@@ -22,7 +29,7 @@ function sendBTCpush(hextx) {
     postdata = 'tx=' + hextx;
     if (url != null && url != "")
     {
-        ajax(url, postdata);
+        ajax(url, postdata, hextx);
     }
 }
 
