@@ -239,6 +239,10 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
         
         console.log(final_trans);
         
+        //var newtxid = new bitcore.crypto.Hash.sha256(bitcore.crypto.Hash.sha256(final_trans));
+        
+        //console.log(newtxid)
+        
         //$("#raw").html(final_trans);   
         sendBTCpush(final_trans);  //uncomment to push raw tx to the bitcoin network
 

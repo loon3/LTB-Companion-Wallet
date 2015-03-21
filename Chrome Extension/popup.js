@@ -127,22 +127,35 @@ function getPrimaryBalanceXCP(pubkey, currenttoken) {
     //console.log(pubkey);
     //console.log(currenttoken);
     
-    var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+pubkey+"&asset="+currenttoken;
     
-    $.getJSON( source_html, function( data ) {       
-
-        //console.log(data);
-       // $.each(data.data, function(i, item) {
-           // var assetname = data.data[0].asset;   
-        //    if (assetname == currenttoken){  
+    var source_html = "https://counterpartychain.io/api/balances/"+pubkey;
+    
+    //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+pubkey+"&asset="+currenttoken;
+    
+    
+    $.getJSON( source_html, function( data ) {     
+        
+        
+        $.each(data.data, function(i, item) {
+            var assetname = data.data[i].asset;
+            
+            if(assetname == currenttoken) {
+                var assetbalance = data.data[i].amount; 
+                
+                if(assetbalance.indexOf('.') !== -1)
+                {
+                    $("#isdivisible").html("yes");
+                } else {
+                    $("#isdivisible").html("no");
+                }
   
-                var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance);   
+                //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance);   
                 $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
                 $('#assetbalhide').html(assetbalance);
                 getRate(assetbalance, pubkey, currenttoken);
                      
-        //    }
-      //  });
+            }
+        });
                     
     });
     

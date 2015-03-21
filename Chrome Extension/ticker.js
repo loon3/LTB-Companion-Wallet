@@ -311,8 +311,7 @@ $( document ).ready(function() {
         {
             $("#sendtokenbutton").html("Sending...");
             $("#sendtokenbutton").prop('disabled', true);
-            
-            
+             
             var assetbalance = $("#xcpbalance").html();
             var array = assetbalance.split(" ");
             var currentbalance = parseFloat(array[0]);
@@ -324,6 +323,14 @@ $( document ).ready(function() {
             var sendtoamount_text = $("#sendtoamount").val();
             var sendtoamount = parseFloat(sendtoamount_text);
                        
+            if($("#isdivisible").html() == "no"){
+            
+                sendtoamount = Math.floor(sendtoamount) / 100000000;
+            
+            } 
+            
+            console.log(sendtoamount);
+            
             var minersfee = 0.0001;
             
             var totalsend = parseFloat(sendtoamount) + minersfee;
@@ -358,7 +365,7 @@ $( document ).ready(function() {
                             
                             $("#sendtokenbutton").html("Sending...");
                             
-                            //sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
+                            sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
                             
                             //setUnconfirmed(currenttoken, sendtoamount);
                             
