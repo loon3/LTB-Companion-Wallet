@@ -231,14 +231,14 @@ $( document ).ready(function() {
   });
 
 
-  $('#txHistory').click(function ()
-  {
-    var address = $("#xcpaddress").html();
-    chrome.tabs.create(
-    {
-      url: "http://blockscan.com/address/" + address
-    });
-  });
+//  $('#txHistory').click(function ()
+//  {
+//    var address = $("#xcpaddress").html();
+//    chrome.tabs.create(
+//    {
+//      url: "http://blockscan.com/address/" + address
+//    });
+//  });
 
   $('#contact').click(function ()
   {
@@ -423,7 +423,13 @@ $( document ).ready(function() {
     $(document).on("keyup", '#sendtoamount', function (event)
     { 
         var sendamount = parseFloat($("#sendtoamount").val());
-        var currentbalance = parseFloat($("#assetbalhide").html());
+        var currenttoken = $(".currenttoken").html();
+        
+        if (currenttoken == "BTC") {
+            var currentbalance = parseFloat($("#btcbalhide").html());
+        } else {
+            var currentbalance = parseFloat($("#assetbalhide").html());
+        }
         
         //console.log(sendamount);
         //console.log(currentbalance);
