@@ -17,5 +17,5 @@
    "name": "LTB Companion Wallet",
    "permissions": [ "storage", "http://*/", "clipboardWrite", "clipboardRead" ],
    "short_name": "LTB Companion Wallet",
-   "version": "0.0.1"
+   "version": "0.1.1"
 }

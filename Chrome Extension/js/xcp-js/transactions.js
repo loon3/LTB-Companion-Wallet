@@ -28,6 +28,7 @@ function hex_byte() {
    
 }
 
+
 function rawtotxid(raw) {
 
     var firstSHA = Crypto.SHA256(Crypto.util.hexToBytes(raw))

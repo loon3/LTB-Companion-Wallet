@@ -253,3 +253,38 @@ body
 #refreshWallet {
 cursor: pointer;
 }
+
+
+.receivedtrans {
+    background-color: #2D882D;
+    color: #fff;
+    padding: 4px 6px 4px 6px;
+    margin: 4px 0 4px 0;
+    border: 3px solid #78B494;
+}
+
+.senttrans {
+    background-color: #AA3939;
+    color: #fff;
+    padding: 4px 6px 4px 6px;
+    margin: 4px 0 4px 0;
+    border: 3px solid #FDA8AA;
+}
+
+.assetnametrans {
+    font-weight: bold;
+    font-size: 18px;   
+}
+
+.addresstrans {
+    padding-bottom: 12px;  
+}
+
+.assetqtytrans {
+    padding-top: 4px;  
+}
+
+
+
+
+

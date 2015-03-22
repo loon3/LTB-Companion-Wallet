@@ -64,16 +64,16 @@
 	   <div role="tabpanel">
 
   <!-- Nav tabs -->
-  <ul class="nav nav-tabs" role="tablist" id="allTabs">
-    <li role="presentation" class="active" id="walletTab"><a id="walletLink" href="#walletPage" aria-controls="walletPage" role="tab" data-toggle="tab"><img src="wallet_icon.png"></a></li>
-    <li role="presentation" id="inventoryTab"><a href="#inventoryPage" aria-controls="inventoryPage" role="tab" data-toggle="tab"><img src="inventory_icon.png"></a></li>
-      <li role="presentation" id="signTab"><a href="#signPage" aria-controls="signPage" role="tab" data-toggle="tab"><img src="sign_icon.png" height="24" width="24"></a></li>
-    <li role="presentation"><a href="#settingsPage" aria-controls="settingsPage" role="tab" data-toggle="tab"><img src="key-icon.png"></a></li>  
+  <ul class="nav nav-tabs" id="allTabs">
+    <li class="active" id="walletTab"><a id="walletLink" href="#walletPage" data-toggle="tab"><img src="wallet_icon.png" height="24" width="24"></a></li>
+    <li id="inventoryTab"><a href="#inventoryPage" data-toggle="tab"><img src="inventory_icon.png" height="24" width="24"></a></li>
+      <li id="signTab"><a href="#signPage" data-toggle="tab"><img src="sign_icon.png" height="24" width="24"></a></li>
+    <li><a href="#settingsPage" data-toggle="tab"><img src="key-icon.png" height="24" width="24"></a></li>  
   </ul>
 
   <!-- Tab panes -->
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="walletPage">
+    <div class="tab-pane active" id="walletPage">
         
         
         
@@ -140,11 +140,13 @@
         
         
     </div>
-    <div role="tabpanel" class="tab-pane" id="inventoryPage">
-    
-		<div id="allassets"></div>    
+    <div class="tab-pane" id="inventoryPage">
+        <div style="padding: 10px;"><button id="assettransactiontoggle" class="btn btn-default btn-block btn-sm" style="width: 100%;">View Transaction History</button></div>
+		<div id="allassets"></div>
+        <div id="alltransactions"></div> 
+        
     </div>
-    <div role="tabpanel" class="tab-pane" id="signPage">
+    <div class="tab-pane" id="signPage">
     
         <div id="preSign">
 		<div align="center" class="lead" style="margin: 30px 0 20px 0;">Select Address to Sign Message</div>  
@@ -160,7 +162,7 @@
         
         <div id="resetsignbox" style="display: none; margin: 0 0 30px 0;"><button id="resetSignButton" class="btn btn-primary btn-block">Reset</button></div>
     </div>
-    <div role="tabpanel" class="tab-pane" id="settingsPage">
+    <div class="tab-pane" id="settingsPage">
 		
 
 	
@@ -206,7 +208,7 @@
             
             
             
-                  <a href="#" style="margin-bottom: 15px;" class="btn btn-primary btn-block keybutton resetAddress">Reset Passphrase</a>  
+                  <a href="#" style="margin-bottom: 15px;" class="btn btn-danger btn-block keybutton resetAddress">Reset Passphrase</a>  
             
             
                     

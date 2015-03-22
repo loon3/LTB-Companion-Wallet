@@ -36,6 +36,7 @@ function getStorage()
 }
 
 
+
 //function getBlockHeight(){
 //     var source_html = "https://insight.bitpay.com/api/sync";
 //       
@@ -407,7 +408,9 @@ function loadAssets(add) {
             $( "#allassets" ).append( assethtml );
 
         });
-             
+        
+        loadTransactions(add);
+        
     });
 }
 
@@ -490,6 +493,73 @@ function loadAssets(add) {
     
     		}
 
+function twodigits(n){
+    return n > 9 ? "" + n: "0" + n;
+}
+
+function timeConverter(UNIX_timestamp){
+  var a = new Date(UNIX_timestamp*1000);
+  var year = a.getFullYear();
+  var month = a.getMonth() + 1;
+  var date = a.getDate();
+  var hour = a.getHours();
+  var min = a.getMinutes();
+  var sec = a.getSeconds();
+  var time = twodigits(month) + '-' + twodigits(date) + '-' + year + ' | ' + twodigits(hour) + ':' + twodigits(min) + ':' + twodigits(sec) ;
+  return time;
+}
+
+
+
+function loadTransactions(add) {
+
+    //{"address":"1CWpnJVCQ2hHtehW9jhVjT2Ccj9eo5dc2E","asset":"LTBCOIN","block":348621,"quantity":"-50000.00000000","status":"valid","time":1426978699,"tx_hash":"dc34bbbf3fa02619b2e086a3cde14f096b53dc91f49f43b697aaee3fdec22e86"}
+
+    var source_html = "https://counterpartychain.io/api/transactions/"+add;
+    
+    
+    
+    $.getJSON( source_html, function( data ) {
+        
+        $( "#alltransactions" ).html("");
+        
+        $.each(data.data, function(i, item) {
+            
+            var assetname = data.data[i].asset;
+            
+            if (assetname.charAt(0) != "A") {
+            
+            var address = data.data[i].address;
+            
+            var quantity = data.data[i].quantity;
+            var time = data.data[i].time;
+            
+            var translink = "https://counterpartychain.io/transaction/"+data.data[i].tx_hash;
+            var addlink = "https://counterpartychain.io/address/"+address;
+            
+            if (parseFloat(quantity) < 0) {
+                var background = "senttrans";
+                var transtype = "<span class='small'>Sent to </span>";
+            } else {
+                var background = "receivedtrans";
+                var transtype = "<span class='small'>Received from </span>";
+            }
+             
+  
+            var assethtml = "<div class='"+background+"'><div class='row'><div class='col-xs-6'><div class='assetnametrans'>"+assetname+"</div><div class='assetqtytrans'><span class='small'>Amount:</span><br>"+quantity+"</div></div><div class='col-xs-6'><div class='addresstrans'>"+transtype+"<br><a href='"+addlink+"' style='color: #fff;'>"+address.substring(0, 12)+"...</a></div><div class='small' style='bottom: 0;'><a href='"+translink+"' style='color: #fff;'>"+timeConverter(time)+"</a></div></div></div></div>";
+             
+    
+            $( "#alltransactions" ).append( assethtml );
+                
+            }
+
+        });
+             
+    });
+    
+    
+}
+
 
 
 //function setUnconfirmed(sendaddress, sendasset, sendamount) {
@@ -498,9 +568,9 @@ function loadAssets(add) {
 //    var finalbalance = currentbalance - parseFloat(sendamount);
 //    var unconfirmedamt = parseFloat(sendamount)*(-1);
 //    
-//    $(".unconfirmedbal").html("("+unconfirmedamt+")");
 //    
-//    var tx = {asset: sendasset, txamount: sendamount};
+//    
+//    var tx = {asset: sendasset, txamount: unconfirmedamt, postbalance: finalbalance};
 //    
 //    var txfinal = {address: sendaddress, tx: tx};
 //      

@@ -1,15 +1,20 @@
 var bitcore = require('bitcore');
 
 $( document ).ready(function() {
-    
+    $('#alltransactions').hide();
     
     $('#yourtxid').on('click', 'a', function(){
      chrome.tabs.create({url: $(this).attr('href')});
      return false;
    });
     
-    $("#pinsplash").hide();
+    $('#alltransactions').on('click', 'a', function(){
+     chrome.tabs.create({url: $(this).attr('href')});
+     return false;
+   });
     
+    $("#pinsplash").hide();
+    $('#alltransactions').hide();
     
     getStorage();
     //setEncryptedTest();
@@ -96,7 +101,18 @@ $( document ).ready(function() {
     });
     
     
-    
+    $('#assettransactiontoggle').click(function ()
+        { 
+            if ($('#assettransactiontoggle').html() == "View Assets") {
+                $('#assettransactiontoggle').html("View Transaction History");
+                $('#alltransactions').hide();
+                $('#allassets').show();
+            } else {
+                $('#assettransactiontoggle').html("View Assets");
+                $('#alltransactions').show();
+                $('#allassets').hide();
+            }
+        });
     
     $('.resetAddress').click(function ()
         {
@@ -262,7 +278,10 @@ $( document ).ready(function() {
     
     var address = $("#xcpaddress").html();
       
+    //$("#alltransactions").hide();
+      
     loadAssets(address);
+    
       
   });  
     
