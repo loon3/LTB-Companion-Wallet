@@ -47,7 +47,20 @@ secondSHA = Crypto.SHA256(Crypto.util.hexToBytes(firstSHA))
 
 console.log(reverseBytes(secondSHA));  
 console.log("4f0307d0cffbd37bbb6de8a4d2ffedabf700ecc421a4a017762e6f3bb9c64dff");
+
     
+$.getJSON( "https://poloniex.com/public?command=returnOrderBook&currencyPair=BTC_LTBC&depth=1", function( data ) {
+    var btcrate = data.asks[0][0];
+    
+    $.getJSON( "https://poloniex.com/public?command=returnOrderBook&currencyPair=USDT_BTC&depth=1", function( data ) {
+        var usdtrate = data.asks[0][0];
+    
+        var ltbperusdt = 1 / (parseFloat(btcrate)*parseFloat(usdtrate));    
+        
+        console.log(ltbperusdt);
+
+    });
+});
 
 </script>
 </head>
