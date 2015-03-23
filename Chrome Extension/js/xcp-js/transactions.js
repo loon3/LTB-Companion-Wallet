@@ -75,6 +75,9 @@ function create_xcp_send_data(asset_name, amount) {
     
     var asset_id_hex = padprefix(asset_id.toString(16), 16);
     var amount_hex = padprefix((amount*100000000).toString(16), 16);
+    
+    console.log(asset_id_hex);
+    console.log(amount_hex);
                                
     var data = prefix + asset_id_hex + amount_hex + trailing_zeros; 
     
@@ -148,6 +151,26 @@ function addresses_from_datachunk(datachunk) {
     
 }
 
+function isdatacorrect(data_chunk, asset, asset_total) {
+            
+            var asset_id = assetid(asset);
+            
+            var assethex = data_chunk.substring(42, 26);
+            var amount = data_chunk.substring(58, 42);
+            var asset_dec = parseInt(assethex, 16);
+            var amount_dec = parseInt(amount, 16) / 100000000;
+            
+            if (asset_id == asset_dec && asset_total == amount_dec) {
+                var correct = "yes";
+            } else {
+                var correct = "no";
+            }
+            
+            return correct;
+            
+            
+}
+
 function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, transfee, mnemonic) {
        
     //var mnemonic = $("#newpassphrase").html();
@@ -200,12 +223,23 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
         } else {
             var satoshi_change = 0;
         }
-    
+        
+        console.log(asset);
+        console.log(asset_total);
+        
         var datachunk_unencoded = create_xcp_send_data(asset, asset_total);
         
+        var correct = isdatacorrect(datachunk_unencoded, asset, asset_total); 
+        
         console.log(datachunk_unencoded);
+        console.log(correct + " correct");
         
         var datachunk_encoded = xcp_rc4(utxo_key, datachunk_unencoded);
+        
+        
+        
+        console.log(datachunk_encoded);
+        
         var address_array = addresses_from_datachunk(datachunk_encoded);
         
         var sender_pubkeyhash = new bitcore.PublicKey(bitcore.PrivateKey.fromWIF(privkey));
@@ -239,7 +273,12 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
         
         console.log(final_trans);   
        
-        sendBTCpush(final_trans);  //push raw tx to the bitcoin network via Blockchain.info
+            
+        if (correct == "yes") {   
+            sendBTCpush(final_trans);  //push raw tx to the bitcoin network via Blockchain.info
+        } else {
+            $("#sendtokenbutton").html("Error, refresh to continue...");
+        }
 
     });
     
