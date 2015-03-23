@@ -129,6 +129,31 @@ function getPrimaryBalanceXCP(pubkey, currenttoken) {
     //console.log(currenttoken);
     
     
+if (currenttoken == "XCP") {
+    
+    //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+pubkey+"&asset="+currenttoken;
+    
+   var source_html = "http://counterpartychain.io/api/address/"+pubkey;
+    
+    
+    $.getJSON( source_html, function( data ) {  
+        //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
+        
+        var assetbalance = data.xcp_balance;
+        assetbalance = parseFloat(assetbalance).toString(); 
+        
+        $("#isdivisible").html("yes");
+    
+        $("#xcpbalance").html("<span id='currentbalance'>" + assetbalance + "</span><span class='unconfirmedbal'></span><br><div style='font-size: 22px; font-weight: bold;'><span id='currenttoken'>" + currenttoken + "</span>");
+        $('#assetbalhide').html(assetbalance);
+        
+        getRate(assetbalance, pubkey, currenttoken);
+        
+    });
+    
+} else {  
+    
+    
     var source_html = "https://counterpartychain.io/api/balances/"+pubkey;
     
     //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+pubkey+"&asset="+currenttoken;
@@ -163,11 +188,14 @@ function getPrimaryBalanceXCP(pubkey, currenttoken) {
                     
     });
     
+}
+    
     if (typeof assetbalance === 'undefined') {
             $("#xcpbalance").html("<span id='currentbalance'>0</span><span class='unconfirmedbal'></span><br><div style='font-size: 22px; font-weight: bold;'>" + currenttoken + "</div>");
             $('#assetbalhide').html(0);
             getRate(0, pubkey, currenttoken);
     }
+
 }
 
 function getPrimaryBalanceBTC(pubkey){
@@ -387,29 +415,40 @@ function loadAssets(add) {
     
     var source_html = "https://counterpartychain.io/api/balances/"+add;
     
+    var xcp_source_html = "http://counterpartychain.io/api/address/"+add;
     
     
-    $.getJSON( source_html, function( data ) {
+    $.getJSON( xcp_source_html, function( data ) {  
+        //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
         
-        var btcbalance = $("#btcbalhide").html();
+        var xcpbalance = data.xcp_balance;    
+    
+        $.getJSON( source_html, function( data ) {
         
-        $( "#allassets" ).html("<div class='btcasset'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+btcbalance+"</div></div>");
-
+            var btcbalance = $("#btcbalhide").html();
         
-        $.each(data.data, function(i, item) {
-            var assetname = data.data[i].asset;
-            var assetbalance = data.data[i].amount;
-            if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+            $( "#allassets" ).html("<div class='btcasset'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+btcbalance+"</div></div>");
             
-            if (assetname.charAt(0) != "A") {
-                var assethtml = "<div class='singleasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
-            } 
-    
-            $( "#allassets" ).append( assethtml );
-
-        });
+            $( "#allassets" ).append("<div class='xcpasset'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+xcpbalance+"</div></div>");
         
-        loadTransactions(add);
+        
+        
+            $.each(data.data, function(i, item) {
+                var assetname = data.data[i].asset;
+                var assetbalance = data.data[i].amount; //.balance for blockscan
+                if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+            
+                if (assetname.charAt(0) != "A") {
+                    var assethtml = "<div class='singleasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
+                } 
+    
+                $( "#allassets" ).append( assethtml );
+
+            });
+        
+            loadTransactions(add);
+        
+        });
         
     });
 }

@@ -185,6 +185,14 @@ body
     border: 3px solid #EBC481;
 }
 
+.xcpasset {
+    background-color: #AA3939;
+    color: #fff;
+    padding: 4px 0 4px 0;
+    margin: 4px 0 4px 0;
+    border: 3px solid #FDA8AA;
+}
+
 .singleasset {
     background-color: #23688F;
     color: #fff;
