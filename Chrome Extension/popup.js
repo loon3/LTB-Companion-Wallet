@@ -140,6 +140,11 @@ if (currenttoken == "XCP") {
         //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
         
         var assetbalance = data.xcp_balance;
+        
+        if (typeof assetbalance === 'undefined') {
+            assetbalance = 0;
+        }
+        
         assetbalance = parseFloat(assetbalance).toString(); 
         
         $("#isdivisible").html("yes");
@@ -422,6 +427,10 @@ function loadAssets(add) {
         //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
         
         var xcpbalance = data.xcp_balance;    
+        
+        if (typeof xcpbalance === 'undefined') {
+            xcpbalance = 0;
+        }
     
         $.getJSON( source_html, function( data ) {
         
