@@ -21,7 +21,11 @@ $( document ).ready(function() {
     
     //on open
     var manifest = chrome.runtime.getManifest();
-    $("#nameversion").html("LTB Companion Wallet v" + manifest.version);
+    
+    var infobutton = "<div style='display: inline-block; padding-left: 5px;'><a id='infoButton' href='#infoPage' data-toggle='tab'><img src='info-icon.png' height='16' width='16'></a></div>";
+    
+    $("#nameversion").html("LTB Companion Wallet v" + manifest.version + infobutton);
+  
     
        var JsonFormatter = {
         stringify: function (cipherParams) {
