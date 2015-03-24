@@ -88,19 +88,18 @@ $( document ).ready(function() {
     
     $( "#walletaddresses" ).change(function () {
     
-    var addr = $(this).val();
+        var addr = $(this).val();
     
 //    chrome.storage.local.set(
 //                    {
 //                        'lastAddress': addr
 //                    }, function () {
                     
-                        $("#xcpaddress").html(addr);
+        $("#xcpaddress").html(addr);
     
-                        getPrimaryBalance(addr);
+        getPrimaryBalance(addr);
                     
 //                    });
-    
     
     });
     
@@ -108,7 +107,7 @@ $( document ).ready(function() {
     $('#assettransactiontoggle').click(function ()
         { 
             if ($('#assettransactiontoggle').html() == "View Assets") {
-                $('#assettransactiontoggle').html("View Transaction History");
+                $('#assettransactiontoggle').html("View Asset Transaction History");
                 $('#alltransactions').hide();
                 $('#allassets').show();
             } else {
@@ -445,6 +444,25 @@ $( document ).ready(function() {
         }
         
         
+        if (currenttoken == "LTBCOIN") {
+            
+            if (isNaN(sendamount) == false && $("#sendtoamount").filter(function() { return $(this).val(); }).length > 0){
+            
+                var ltbtousd = $("#ltbPrice").html();
+                var sendinusd = sendamount / parseFloat(ltbtousd);
+            
+                $("#sendUSD").html("($"+sendinusd.toFixed(2)+")");
+ 
+            } else {
+            
+                $("#sendUSD").html("");
+            }
+            
+        } else {
+            
+            $("#sendUSD").html("");
+            
+        }
         
     });
     
