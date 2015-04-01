@@ -39,8 +39,14 @@ function sendBTC(add_from, add_to, sendtotal, transfee) {
     var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";
     
     var total_utxo = new Array();   
-    var sendtotal_satoshis = parseFloat(sendtotal) * 100000000;   
-    sendtotal_satoshis.toFixed(0);
+    var sendtotal_satoshis = parseFloat(sendtotal).toFixed(8) * 100000000;   
+    //sendtotal_satoshis.toFixed(0);
+    
+    console.log(sendtotal_satoshis);
+    sendtotal_satoshis = Math.round(sendtotal_satoshis);
+    console.log(sendtotal_satoshis);
+    
+    //console.log("sendtotal_satoshis " + sendtotal_satoshis);
     
     var mnemonic = $("#newpassphrase").html();
     
