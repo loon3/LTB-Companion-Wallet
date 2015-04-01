@@ -451,6 +451,12 @@ function loadAssets(add) {
             
                 if (assetname.charAt(0) != "A") {
                     var assethtml = "<div class='singleasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
+                    
+//                    if(assetname == "LTBCOIN") {
+//                    var assethtml = "<div class='enhancedasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
+//                    }
+                    
+                    
                 } 
     
                 $( "#allassets" ).append( assethtml );

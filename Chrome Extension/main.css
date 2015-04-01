@@ -201,6 +201,17 @@ body
     border: 3px solid #67B5E0;
 }
 
+.enhancedasset {
+    background-image: url("/test/enhanced_asset_ltbcoin_top.png");
+    background-repeat: no-repeat;
+    background-color: #23688F;
+    color: #fff;
+    padding: 68px 0 4px 0;
+    margin: 4px 0 4px 0;
+    border: 3px solid #67B5E0;
+    height: 128px;
+}
+
 .assetname {
   
     padding: 2px 0 2px 8px;
