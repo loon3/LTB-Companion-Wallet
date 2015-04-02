@@ -16,6 +16,8 @@ $( document ).ready(function() {
     $("#pinsplash").hide();
     $('#alltransactions').hide();
     
+    
+    
     getStorage();
     //setEncryptedTest();
     
@@ -104,6 +106,89 @@ $( document ).ready(function() {
     });
     
     
+    
+    $('#yesEncryptButton').click(function (){
+        
+        if ($('#usedcurrentpassphrase').html() == "no"){
+            newPassphrase();
+        }
+        $('#encryptquestion').hide();  
+        $('#encryptyes').show();  
+    
+    });
+    
+    $('#setpinatsplash').click(function (){
+         
+        
+                        
+        chrome.storage.local.get(["passphrase"], function (data)
+            {       
+            
+                var password = $("#inputSplashPass").val();
+                
+                var encrypted = CryptoJS.AES.encrypt(data.passphrase, password, { format: JsonFormatter });
+               
+                chrome.storage.local.set(
+                {
+                        
+                    'passphrase': encrypted,
+                    'encrypted': true
+                        
+                }, function () {
+                
+                    $("#welcomesplash").hide();
+                    $(".hideEncrypted").hide();
+                    $(".bg").css("min-height", "200px");
+                
+                });
+        
+            });
+                                          
+                  
+    });
+    
+    $('#setupWalletButton').click(function (){
+        $('#walletquestion').show();  
+        $('#initialsplash').hide();  
+    });
+    
+    $('#yesExistingWallet').click(function (){
+        $('#walletquestion').hide();  
+        $('#walletyes').show();  
+    });
+    
+    $('#noExistingWallet').click(function (){
+        $('#walletquestion').hide();  
+        $('#encryptquestion').show();  
+    });
+    
+    $('#setpassphraseatsplash').click(function (){
+        $('#walletyes').hide();  
+        $('#encryptquestion').show();  
+        $('#usedcurrentpassphrase').html("yes");
+        
+        var passphrase = $('#inputSplashPassphrase').val();
+        
+        manualPassphrase(passphrase);
+    });
+    
+    $('#noEncryptButton').click(function (){
+       
+            chrome.storage.local.set(
+                    {
+                        
+                        'firstopen': false
+                        
+                    }, function () {
+                    
+                        getStorage();
+                        $("#welcomesplash").hide();
+                                          
+                    });
+        
+    
+    });
+    
     $('#assettransactiontoggle').click(function ()
         { 
             if ($('#assettransactiontoggle').html() == "View Assets") {
@@ -166,7 +251,9 @@ $( document ).ready(function() {
     
     $('#manualAddressButton').click( function ()
         {
-            manualPassphrase();
+            var passphrase = $('#manualMnemonic').val();
+            $('#manualMnemonic').val("");
+            manualPassphrase(passphrase);
         });
  
       $(document).on("click", '#depositBTC', function (event)

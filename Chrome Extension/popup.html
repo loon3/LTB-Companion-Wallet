@@ -44,6 +44,90 @@
     
     <div class="bg">
         
+        <div id="welcomesplash" style="display: none;">         
+<!--
+            <form>
+            <p class="lead">Enter Password:</p>
+            <div style="width: 100%; padding: 10px 0 30px 0;"><input type="password" style="text-align: center;" class="form-control" id="inputPin"></div>
+            <div align="center"><button id="pinButton" type="submit" class="btn btn-primary">Open Wallet</button></div>
+            
+            </form>
+-->
+        <p class="small">Welcome to the</p>
+            <h3 style="margin: -10px 0 25px 0;">LTB Companion Wallet</h3>
+            <div align="center" style="padding-bottom: 15px;"><img src="ltblogo.png"></div>
+        <div id="initialsplash">
+            <p>The LTB Companion Wallet is an open source wallet built for the Let's Talk Bitcoin Network at letstalkbitcoin.com</p>
+                
+            
+            <p>Source code is available on Github at<br> <span style="font-weight: bold; font-size: 12px;">https://github.com/loon3/LTB-Companion-Wallet</span></p>
+            <div align="center" style="padding-top: 20px;">
+                <button id="setupWalletButton" class="btn btn-default btn-block" style="width: 100%;">Set up your Wallet</button>
+            </div>
+            </div>
+            
+            <div id="walletquestion" style="padding: 40px 0 0 0; display: none;">
+                <p class="lead">Do you already have a Counterwallet passphrase?</p>
+                <div class="row">
+                    <div class="col-xs-6">
+                
+                        <button id="yesExistingWallet" class="btn btn-success btn-block" style="width: 100%;">Yes</button>
+                    
+                    </div>
+                    <div class="col-xs-6">
+                
+                        <button id="noExistingWallet" class="btn btn-info btn-block" style="width: 100%;">No</button>
+                    
+                    </div>
+                
+                </div>
+            
+            </div>
+            
+            <div id="walletyes" style="padding: 20px 0 0 0; display: none;">
+            
+                <form>
+            <p class="lead">Enter Passphrase:</p>
+            <div style="width: 100%; padding: 10px 0 30px 0;"><input type="password" style="text-align: center;" class="form-control" id="inputSplashPassphrase"></div>
+            <div align="center"><button id="setpassphraseatsplash" type="submit" class="btn btn-default">Go</button></div>
+            
+            </form>
+            
+            </div>
+            
+            
+            <div id="encryptquestion" style="padding: 40px 0 0 0; display: none;">
+                <div id="usedcurrentpassphrase" style="display: none;">no</div>
+                <p class="lead">Do you want to encrypt your wallet with a password?</p>
+                <div class="row">
+                    <div class="col-xs-6">
+                
+                        <button id="yesEncryptButton" class="btn btn-success btn-block" style="width: 100%;">Yes!</button>
+                    
+                    </div>
+                    <div class="col-xs-6">
+                
+                        <button id="noEncryptButton" class="btn btn-info btn-block" style="width: 100%;">Not Now</button>
+                    
+                    </div>
+                
+                </div>
+            
+            </div>
+            
+            <div id="encryptyes" style="padding: 20px 0 0 0; display: none;">
+            
+                <form>
+            <p class="lead">Enter Password:</p>
+            <div style="width: 100%; padding: 10px 0 30px 0;"><input type="password" style="text-align: center;" class="form-control" id="inputSplashPass"></div>
+            <div align="center"><button id="setpinatsplash" type="submit" class="btn btn-default">Set Password</button></div>
+            
+            </form>
+            
+            </div>
+            
+        </div>
+        
         <div id="pinsplash">         
             <form>
             <p class="lead">Enter Password:</p>
@@ -181,7 +265,7 @@
                     
                 <div class="row" style="padding: 0 10px 0 10px;">
                     <div class="col-xs-9">
-                        <div style="width: 100%;"><input type="text" class="form-control" id="manualMnemonic"></div>
+                        <div style="width: 100%;"><input type="text" class="form-control" id="manualMnemonic" placeholder="Enter 12-word passphrase"></div>
                     </div>
                     <div class="col-xs-3">
                         <button id="manualAddressButton" class="btn btn-default btn-block" style="width: 100%;">Go</button>

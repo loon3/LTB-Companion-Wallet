@@ -8,9 +8,11 @@ body
        min-height: 200px;
        padding: 0 5px 0 5px;
     }
+
 .bg 
     {
         width: 320px;
+        min-height: 420px;
         max-height: 700px;
         margin: 5px 2px 5px 2px; 
         background-color: #fff;      
@@ -27,6 +29,23 @@ body
 	left: 0px;
 	text-align: center;
     padding: 85px 50px 70px 50px;
+	/*opacity: 0.99;
+    filter: alpha(opacity=99); */
+}
+
+#welcomesplash {
+	display: block;
+	z-index: 2;
+
+    background-color: #21698f; 
+
+    color: #fff;
+	position: fixed;
+	width: 100%;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+    padding: 20px 20px 90px 20px;
 	/*opacity: 0.99;
     filter: alpha(opacity=99); */
 }

@@ -15,23 +15,37 @@ function setEncryptedTest() {
     
 function getStorage()
 {
-    chrome.storage.local.get(["passphrase", "encrypted"], function (data)
+    chrome.storage.local.get(["passphrase", "encrypted", "firstopen"], function (data)
     {
-        if ( data.encrypted == false) {
+        if ( data.firstopen == false ) {
             
-            existingPassphrase(data.passphrase);
+            $(".bg").css("min-height", "200px");
             
-        } else if ( data.encrypted == true) {
-            
-            $(".hideEncrypted").hide();
-            
-            $("#pinsplash").show();
-            $("#priceBox").hide();
+            $("#welcomesplash").hide();
         
+            if ( data.encrypted == false) {
+            
+                existingPassphrase(data.passphrase);
+            
+            } else if ( data.encrypted == true) {
+            
+                $(".hideEncrypted").hide();
+            
+                $("#pinsplash").show();
+                $("#priceBox").hide();
+        
+            } else {
+                
+                newPassphrase();
+                
+            }
+       
         } else {
-            newPassphrase();
+            
+            $("#welcomesplash").show();
+            
         }
-        //getRate();
+            
     });
 }
 
@@ -349,7 +363,9 @@ function newPassphrase()
     chrome.storage.local.set(
                     {
                         'passphrase': phraseList,
-                        'encrypted': false
+                        'encrypted': false,
+                        'firstopen': false
+                        
                     }, function () {
                         
                         $(".hideEncrypted").show();
@@ -379,9 +395,13 @@ function existingPassphrase(string) {
 
 
 
-function manualPassphrase() {
-    var string = $('#manualMnemonic').val().trim().toLowerCase();
-    $('#manualMnemonic').val("");
+function manualPassphrase(passphrase) {
+//    var string = $('#manualMnemonic').val().trim().toLowerCase();
+//    $('#manualMnemonic').val("");
+    
+    
+    var string = passphrase.trim().toLowerCase();
+    
     string = string.replace(/\s{2,}/g, ' ');
     var array = string.split(" ");
     m2 = new Mnemonic(array);
@@ -394,7 +414,8 @@ function manualPassphrase() {
     chrome.storage.local.set(
                     {
                         'passphrase': string,
-                        'encrypted': false
+                        'encrypted': false,
+                        'firstopen': false
                     }, function () {
                     
                         convertPassphrase(m2);
