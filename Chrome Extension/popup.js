@@ -471,9 +471,11 @@ function loadAssets(add) {
         
             var btcbalance = $("#btcbalhide").html();
         
-            $( "#allassets" ).html("<div class='btcasset'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+btcbalance+"</div></div>");
+            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqty'>"+btcbalance+"</div></div></div>");
             
-            $( "#allassets" ).append("<div class='xcpasset'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+xcpbalance+"</div></div>");
+            var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
+            
+            $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqty'>"+xcpbalance+"</div></div></div>");
         
         
         
@@ -481,9 +483,12 @@ function loadAssets(add) {
                 var assetname = data.data[i].asset;
                 var assetbalance = data.data[i].amount; //.balance for blockscan
                 if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+                
+                var iconname = assetname.toLowerCase();
+                var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
             
                 if (assetname.charAt(0) != "A") {
-                    var assethtml = "<div class='singleasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
+                    var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>"+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
                     
 //                    if(assetname == "LTBCOIN") {
 //                    var assethtml = "<div class='enhancedasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
