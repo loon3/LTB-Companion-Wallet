@@ -50,6 +50,17 @@ function getStorage()
 }
 
 
+function copyToClipboard(text){
+                var copyDiv = document.createElement('div');
+                copyDiv.contentEditable = true;
+                document.body.appendChild(copyDiv);
+                copyDiv.innerHTML = text;
+                copyDiv.unselectable = "off";
+                copyDiv.focus();
+                document.execCommand('SelectAll');
+                document.execCommand("Copy", false, null);
+                document.body.removeChild(copyDiv);
+            }
 
 //function getBlockHeight(){
 //     var source_html = "https://insight.bitpay.com/api/sync";
@@ -359,6 +370,7 @@ function newPassphrase()
     var phraseList = res; 
     
     $("#newpassphrase").html(phraseList);
+    $("#yournewpassphrase").html(phraseList);
     
     chrome.storage.local.set(
                     {

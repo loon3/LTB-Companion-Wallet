@@ -109,9 +109,6 @@ $( document ).ready(function() {
     
     $('#yesEncryptButton').click(function (){
         
-        if ($('#usedcurrentpassphrase').html() == "no"){
-            newPassphrase();
-        }
         $('#encryptquestion').hide();  
         $('#encryptyes').show();  
     
@@ -158,14 +155,35 @@ $( document ).ready(function() {
     });
     
     $('#noExistingWallet').click(function (){
+         newPassphrase();
+        
         $('#walletquestion').hide();  
+        $('#walletno').show();  
+    });
+    
+    $('#writeDownButton').click(function (){
+        $('#walletno').hide();  
         $('#encryptquestion').show();  
+    });
+    
+    $('#copyButton').click(function (){
+        
+        var address = $("#xcpaddress").html();
+        
+        copyToClipboard(address);
+        
+        $('#xcpaddressTitle').hide(); 
+        $('#addresscopied').show();
+        setTimeout(function(){ 
+            $('#addresscopied').hide(); 
+            $('#xcpaddressTitle').show();
+        }, 1500);
+        
     });
     
     $('#setpassphraseatsplash').click(function (){
         $('#walletyes').hide();  
         $('#encryptquestion').show();  
-        $('#usedcurrentpassphrase').html("yes");
         
         var passphrase = $('#inputSplashPassphrase').val();
         

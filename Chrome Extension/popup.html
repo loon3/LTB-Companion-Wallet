@@ -30,8 +30,9 @@
     
     
     <script src="ticker.js"></script> 
- 
+
     <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    
     <link rel="stylesheet" type="text/css" href="main.css" />
   
     
@@ -62,7 +63,7 @@
             
             <p>Source code is available on Github at<br> <span style="font-weight: bold; font-size: 12px;">https://github.com/loon3/LTB-Companion-Wallet</span></p>
             <div align="center" style="padding-top: 20px;">
-                <button id="setupWalletButton" class="btn btn-default btn-block" style="width: 100%;">Set up your Wallet</button>
+                <button id="setupWalletButton" class="btn btn-default btn-block" style="width: 100%;">Set Up Your Wallet</button>
             </div>
             </div>
             
@@ -95,9 +96,21 @@
             
             </div>
             
+            <div id="walletno" style="margin: 0 0 0 0; display: none;">
+            
+                <form>
+            <p>Write down the 12-word passphrase below.</p>
+            <div class="small" style="padding-bottom: 10px; margin-top: -5px;">This is your private key!  Put it in a safe place!</div>
+            <div id="yournewpassphrase" style="width: 100%; padding: 10px 5px 10px 5px; font-size: 15px; background-color: #000; font-weight: bold;">bury hopefully pink rabbit coward collapse morning quit witch mourn warn frighten</div>
+            
+            <div align="center" style="width: 100%; padding: 15px 0 0 0;"><button id="writeDownButton" type="submit" class="btn btn-default">Continue...</button></div>
+            
+            </form>
+            
+            </div>
             
             <div id="encryptquestion" style="padding: 40px 0 0 0; display: none;">
-                <div id="usedcurrentpassphrase" style="display: none;">no</div>
+
                 <p class="lead">Do you want to encrypt your wallet with a password?</p>
                 <div class="row">
                     <div class="col-xs-6">
@@ -182,7 +195,8 @@
     
         
 		<div id="addressBox">           
-            <div id="xcpaddressTitle">Your Wallet Address</div>
+            <div id="xcpaddressTitle">Your Wallet Address <div style="display: inline-block;" id="copyButton"><img src="clipboard.png"></div></div>
+            <div id="addresscopied">Address Copied to Clipboard!</div>
 			<div id="xcpaddress"></div>
 		</div>
         
