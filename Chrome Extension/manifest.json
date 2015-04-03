@@ -7,7 +7,7 @@
       "default_icon": "icon-128.png",
       "default_popup": "popup.html"
    },
-   "description": "In Development",
+   "description": "Chrome Extension Bitcoin and Counterparty Wallet",
    "icons": {
       "128": "icon-128.png",
       "16": "icon-16.png",
@@ -17,5 +17,5 @@
    "name": "LTB Companion Wallet",
    "permissions": [ "storage", "clipboardWrite", "clipboardRead" ],
    "short_name": "LTB Companion Wallet",
-   "version": "0.1.2"
+   "version": "0.1.3"
 }
