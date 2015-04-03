@@ -4,6 +4,8 @@
 
 Chrome Extension Bitcoin/Counterparty Wallet for use with letstalkbitcoin.com
 
-Last Update v0.1.3 (beta)
-
 Donate BTC, XCP or your favorite asset to 1LrM4bojLAKfuoFMXkDtVPMGydX1rkaMqH
+
+## Release Notes
+
+v0.1.3 - Initial beta release
