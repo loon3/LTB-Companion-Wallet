@@ -9,4 +9,5 @@ Donate BTC, XCP or your favorite asset to 1LrM4bojLAKfuoFMXkDtVPMGydX1rkaMqH
 ## Release Notes
 
 v0.1.3 - Initial beta release
+
 v0.1.4 - Added asset icons via counterpartychain.io 
