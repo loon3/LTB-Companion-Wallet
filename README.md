@@ -13,3 +13,13 @@ v0.1.3 - Initial beta release
 v0.1.4 - Added asset icons via counterpartychain.io 
 
 v0.1.5 - Updated LTB Companion Wallet icon 
+
+## Features
+
+- Send Bitcoin and Counterparty assets
+- Passphrase interoperability with Counterwallet
+- Client-side passphrase encryption
+- Message signing
+- LTBCOIN price feed derived from Poloniex LTBCOIN/BTC rate and the Bitcoinaverage BTC/USD rate and updates every 15 minutes.
+
+Please report all issues at https://github.com/loon3/LTB-Companion-Wallet/issues
