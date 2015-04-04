@@ -4,18 +4,18 @@
       "scripts": [ "js/jquery.min.js", "js/bitcoinjs-min.js" ]
    },
    "browser_action": {
-      "default_icon": "icon-128.png",
+      "default_icon": "ltb-icon-orange-128.png",
       "default_popup": "popup.html"
    },
    "description": "Chrome Extension Bitcoin and Counterparty Wallet",
    "icons": {
-      "128": "icon-128.png",
-      "16": "icon-16.png",
-      "48": "icon-48.png"
+      "128": "ltb-icon-orange-128.png",
+      "16": "ltb-icon-orange-16.png",
+      "48": "ltb-icon-orange-48.png"
    },
    "manifest_version": 2,
    "name": "LTB Companion Wallet",
    "permissions": [ "storage", "clipboardWrite", "clipboardRead" ],
    "short_name": "LTB Companion Wallet",
-   "version": "0.1.4"
+   "version": "0.1.5"
 }
