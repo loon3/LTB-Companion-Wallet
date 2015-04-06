@@ -1,6 +1,9 @@
 var bitcore = require('bitcore');
 
-$( document ).ready(function() {
+$( document ).ready(function() {   
+                
+    setPinBackground();
+    
     $('#alltransactions').hide();
     
     $('#yourtxid').on('click', 'a', function(){
@@ -15,9 +18,7 @@ $( document ).ready(function() {
     
     $("#pinsplash").hide();
     $('#alltransactions').hide();
-    
-    
-    
+
     getStorage();
     //setEncryptedTest();
     
@@ -56,7 +57,6 @@ $( document ).ready(function() {
       e.preventDefault();
     //};
 
-
    // $("#pinButton").click(function () {
         
         var pin = $("#inputPin").val();
@@ -79,7 +79,7 @@ $( document ).ready(function() {
             
                 existingPassphrase(decrypted.toString(CryptoJS.enc.Utf8));
                 
-            }
+            } 
         });
     });
     

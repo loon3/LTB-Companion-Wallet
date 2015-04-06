@@ -14,6 +14,8 @@ v0.1.4 - Added asset icons via counterpartychain.io
 
 v0.1.5 - Updated LTB Companion Wallet icon 
 
+v0.1.6 - Added background images and logo in welcome splash  
+
 ## Features
 
 - Send Bitcoin and Counterparty assets

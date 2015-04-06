@@ -10,6 +10,18 @@ function setEncryptedTest() {
                     });
     
 }
+
+
+function setPinBackground() {
+
+                    var randomBackground = Math.floor(Math.random() * 6);
+            
+                    var bg_link = "url('/pin_bg/"+randomBackground+".jpg')";
+            
+                    $("#pinsplash").css("background-image", bg_link);
+                    $("#pinsplash").css("background-size", "330px 330px"); 
+
+}
     
     
     
@@ -387,7 +399,6 @@ function newPassphrase()
                     
                     });
 
-   
 }
 
 function existingPassphrase(string) {
