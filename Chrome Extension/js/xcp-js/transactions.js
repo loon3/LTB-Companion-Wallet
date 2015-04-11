@@ -283,32 +283,3 @@ function sendXCP(add_from, add_to, asset, asset_total, btc_total, msig_total, tr
     });
     
 }
-
-
-
-
-// Code below may result in data addresses in the wrong order
-
-//        var xcpdatakeys = [
-//            new bitcore.PublicKey(bitcore.PrivateKey.fromWIF(privkey)),
-//            new bitcore.PublicKey(address_array[0]),
-//            new bitcore.PublicKey(address_array[1])
-//        ];
-
-//        var xcpdata_script = new bitcore.Script.buildMultisigOut(xcpdatakeys, 1);
-        
-//        var xcpdata_check = xcpdata_script.toString();
-//        
-//        if(xcpdata_check.substring(10, 76) != address_array[0]) {
-//            var xcpdatakeys = [
-//                new bitcore.PublicKey(bitcore.PrivateKey.fromWIF(privkey)),
-//                new bitcore.PublicKey(address_array[1]),
-//                new bitcore.PublicKey(address_array[0])
-//            ];
-//            var xcpdata_script = new bitcore.Script.buildMultisigOut(xcpdatakeys, 1);
-//        }
-        
-//        var xcpdata_check = xcpdata_script.toString();
-//        console.log(xcpdata_check);
-        
-//        var xcpdata_msig = new bitcore.Transaction.Output({script: xcpdata_script, satoshis: msig_total_satoshis});  
