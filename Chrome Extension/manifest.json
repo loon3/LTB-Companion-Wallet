@@ -15,7 +15,7 @@
    },
    "manifest_version": 2,
    "name": "LTB Companion Wallet",
-   "permissions": [ "storage", "clipboardWrite", "clipboardRead" ],
+   "permissions": [ "storage", "clipboardWrite" ],
    "short_name": "LTB Companion Wallet",
-   "version": "0.1.6"
+   "version": "0.1.7"
 }

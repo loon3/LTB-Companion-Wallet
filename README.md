@@ -16,6 +16,8 @@ v0.1.5 - Updated LTB Companion Wallet icon
 
 v0.1.6 - Added background images and logo in welcome splash  
 
+v0.1.7 - Removed clipboardRead permission
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
