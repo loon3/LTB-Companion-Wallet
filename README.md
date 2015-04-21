@@ -20,6 +20,8 @@ v0.1.7 - Removed clipboardRead permission
 
 v0.2.0 - Send to letstalkbitcoin.com usernames
 
+v0.2.1 - Update to chain.so API in place of blockchain.info
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
