@@ -119,15 +119,19 @@ function qrdepositDropdown() {
 }
 
 function getBTCBalance(pubkey) {
-    var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
+    //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
+    
+    var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
     
     $.getJSON( source_html, function( data ) { 
         
-        var bitcoinparsed = parseFloat(data) / 100000000;
+        //var bitcoinparsed = parseFloat(data) / 100000000;
+        var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
         
         $("#btcbalhide").html(bitcoinparsed);
         
-        var transactions = (parseFloat(data) / 15470) ;
+        //var transactions = (parseFloat(data) / 15470) ;
+        var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547;
         
         //if (transactions >= 2) {// to include escrow amount req'd and tx fee
         
@@ -242,11 +246,13 @@ if (currenttoken == "XCP") {
 
 function getPrimaryBalanceBTC(pubkey){
         
-    var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
+    //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
+    var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
     
     $.getJSON( source_html, function( data ) { 
         
-        var bitcoinparsed = parseFloat(data) / 100000000;
+        //var bitcoinparsed = parseFloat(data) / 100000000;
+        var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
         
         $("#xcpbalance").html(bitcoinparsed + "<br><div style='font-size: 22px; font-weight: bold;'>BTC</div>");
         
