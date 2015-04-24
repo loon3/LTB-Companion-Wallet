@@ -18,6 +18,30 @@ body
         background-color: #fff;      
     }
 
+a {
+    text-decoration: none;
+}
+
+.applink a:link {
+    color: #000;
+}
+
+/* visited link */
+.applink a:visited {
+    color: #000;
+}
+
+/* mouse over link */
+.applink a:hover {
+    color: #000;
+    text-decoration: none;
+}
+
+/* selected link */
+.applink a:active {
+    color: #000;
+}
+
 #pinsplash {
 	display: block;
 	z-index: 2;
@@ -245,6 +269,42 @@ body
     margin: 4px 0 4px 0;
     border: 3px solid #67B5E0;
     height: 128px;
+}
+
+.newsArticle {
+    border-radius: 10px 10px 10px 10px;
+-moz-border-radius: 10px 10px 10px 10px;
+-webkit-border-radius: 10px 10px 10px 10px;
+    -webkit-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
+-moz-box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
+box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
+    border: 2px solid #999; 
+    background-color: #3987AD;
+    color: #fff;
+    padding: 20px 10px 5px 10px; 
+    margin: 30px 20px 30px 20px;
+}
+
+#shapeshiftReturnCurrency {
+
+    margin: 5px;
+}
+
+.toolicon {
+    background-color: #fff;
+    height: 100px;
+    padding: 10px 0 0 0;
+    
+
+}
+
+.activetool:hover {
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.comingsoon {
+    opacity: 0.3;
 }
 
 .assetname {

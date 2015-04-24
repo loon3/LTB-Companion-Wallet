@@ -89,7 +89,7 @@
             
                 <form>
             <p class="lead">Enter Passphrase:</p>
-            <div style="width: 100%; padding: 10px 0 30px 0;"><input type="password" style="text-align: center;" class="form-control" id="inputSplashPassphrase"></div>
+            <div style="width: 100%; padding: 10px 0 30px 0;"><input type="text" style="text-align: center;" class="form-control" id="inputSplashPassphrase"></div>
             <div align="center"><button id="setpassphraseatsplash" type="submit" class="btn btn-default">Go</button></div>
             
             </form>
@@ -165,7 +165,7 @@
   <ul class="nav nav-tabs" id="allTabs">
     <li class="active" id="walletTab"><a id="walletLink" href="#walletPage" data-toggle="tab"><img src="wallet_icon.png" height="24" width="24"></a></li>
     <li id="inventoryTab"><a href="#inventoryPage" data-toggle="tab"><img src="inventory_icon.png" height="24" width="24"></a></li>
-      <li id="signTab"><a href="#signPage" data-toggle="tab"><img src="sign_icon.png" height="24" width="24"></a></li>
+      <li id="toolsTab"><a href="#toolsPage" data-toggle="tab"><img src="apps.png" height="24" width="24"></a></li>
     <li><a href="#settingsPage" data-toggle="tab"><img src="key-icon.png" height="24" width="24"></a></li>  
   </ul>
 
@@ -245,7 +245,90 @@
         <div id="alltransactions"></div> 
         
     </div>
-    <div class="tab-pane" id="signPage">
+    <div class="tab-pane" id="toolsPage">
+        <div class="row applink" style="padding: 15px 0 30px 0; width: 300px; margin: auto;">
+                
+            <a id="signApp" href="#signPage" data-toggle="tab">
+                <div class="col-xs-4 toolicon activetool" align="center">
+                
+                    <img src="sign_icon.png" height="48" width="48">
+                    <div class="small" style="padding: 5px;">Sign Messages</div>
+                    
+                </div>
+            </a>
+                
+            <a id="newsApp" href="#newsPage" data-toggle="tab">
+                <div class="col-xs-4 toolicon activetool" align="center">
+                
+                    <img src="news-icon.png" height="48" width="48">
+                    <div class="small" style="padding: 5px;">What's New<br>at LTB?</div>
+                    
+                </div>
+            </a>
+            
+            <a id="shapeshiftApp" href="#shapeshiftPage" data-toggle="tab">
+                <div class="col-xs-4 toolicon activetool" align="center"> 
+                
+                    <img src="ss-icon.png" height="48" width="48">
+                    <div class="small" style="padding: 5px;">Convert Altcoins</div>
+               
+                </div>
+            </a>    
+            
+            
+            <div class="col-xs-4 toolicon comingsoon" align="center">
+                
+                    <img src="rolodex-icon.png" height="48" width="48">
+                    <div class="small" style="padding: 5px;">LTBn Directory</div>
+                
+            </div>
+            
+            <div class="col-xs-4 toolicon comingsoon" align="center"> 
+                <img src="factory-icon.png" height="48" width="48">
+                <div class="small" style="padding: 5px;">Token Factory</div>
+            </div>
+            
+            
+            
+        </div>
+      
+    </div>
+      
+      <div class="tab-pane" id="newsPage">
+        <div id="newsStories" align="center" class="applink">
+            
+            
+            
+            </div>
+          </div>
+      
+      
+      
+      <div class="tab-pane" id="shapeshiftPage">
+        <div align="center" style="padding-top: 30px;">
+          <img src="ss-icon.png">
+          </div>
+        <div align="center" class="lead" style="margin: 10px 0 20px 0;">Shapeshift provides instant conversion of altcoins to Bitcoin (BTC)</div>
+          
+<!--
+          <div align="center" style="margin: 10px 0 10px 0; font-weight: bold;">Select token to receive:</div>
+          
+          <div align="center" style="width: 300px;">
+           <select id="shapeshiftReturnCurrency" class="form-control" style="font-size: 12px;"><option value="btc" selected>Bitcoin</option><option value="xcp">Counterparty</option></select>
+          </div>
+-->
+          
+          <div align="center" style="margin: 20px 0 10px 0; font-weight: bold;">Select wallet address to receive BTC:</div>
+        
+        <div align="center" style="width: 300px;">
+            <select id="shapeshiftPubAddress" class="addressselect form-control" style="font-size: 12px;"></select>
+        </div>
+        <div align="center" style="width: 100%; padding: 15px 5px 0 5px;"><button id="shapeshiftButton" class="btn btn-warning btn-block">Shapeshift</button></div>
+          <div align="center" style="margin: 15px 0 30px 0;" class="small">After clicking Shapeshift, the LTB Companion Wallet will close and a new window will open where you can select the altcoin you would like to convert.</div>
+          
+      </div>
+      
+      <div class="tab-pane" id="signPage">
     
         <div id="preSign">
 		<div align="center" class="lead" style="margin: 30px 0 20px 0;">Select Address to Sign Message</div>  
@@ -253,7 +336,17 @@
             <select id="signPubAddress" class="addressselect form-control" style="font-size: 12px;"></select>
         </div>
         <div style="width: 100%; padding: 0 5px 0 5px; margin: 10px 0 10px 0;"><input type="text" class="form-control" id="messagetosign" placeholder="Type your message here..."></div>
-        <div align="center" style="width: 100%; padding: 0 5px 0 5px;"><button id="signMessageButton" class="btn btn-primary btn-block">Sign</button></div>
+        <div align="center" style="width: 100%; padding: 10px 5px 20px 5px; margin: auto;" class="row">
+            
+           <div class="col-xs-6"> 
+            <button class="btn btn-primary btn-block signMessageButton">Sign</button>
+            </div>
+            
+            <div class="col-xs-6"> 
+            <button class="btn btn-danger btn-block signMessageButton copy">Sign & Copy</button>
+            </div>
+            
+        </div>
         </div>
         
         <div id="postSign" style="margin: 30px 0 15px 0; display: none; font-size: 11px;">        
@@ -261,12 +354,10 @@
         
         <div id="resetsignbox" style="display: none; margin: 0 0 30px 0;"><button id="resetSignButton" class="btn btn-primary btn-block">Reset</button></div>
     </div>
+      
+      
+      
     <div class="tab-pane" id="settingsPage">
-		
-
-	
-
-		
 
 		<div style="margin-top: 15px; padding: 5px;">
 			<div class="lead" align="center">Wallet Settings</div>

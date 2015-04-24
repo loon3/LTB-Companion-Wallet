@@ -16,6 +16,20 @@ $( document ).ready(function() {
      return false;
    });
     
+    
+     $('#newsStories').on('click', 'a', function(){
+     chrome.tabs.create({url: $(this).attr('href')});
+     return false;
+   });
+    
+    $('#shapeshiftButton').click(function(){
+        
+        var selectedaddress = $("#shapeshiftPubAddress").val();
+        
+        chrome.tabs.create({url: "https://shapeshift.io/shifty.html?destination="+selectedaddress+"&amp;apiKey=da63a102dd3dbbf683d7123c90ce66dad4b7b9c5636bb5c842b6bf207be84195b2a8199dc933aeb7e83ca3a234551673753b0e9c6e53f529e37abc919d108691&amp;amount="});
+        
+   });
+    
     $("#pinsplash").hide();
     $('#alltransactions').hide();
 
@@ -107,6 +121,7 @@ $( document ).ready(function() {
     
     
     
+    
     $('#yesEncryptButton').click(function (){
         
         $('#encryptquestion').hide();  
@@ -166,6 +181,8 @@ $( document ).ready(function() {
         $('#encryptquestion').show();  
     });
     
+   
+    
     $('#copyButton').click(function (){
         
         var address = $("#xcpaddress").html();
@@ -180,6 +197,8 @@ $( document ).ready(function() {
         }, 1500);
         
     });
+    
+   
     
     $('#setpassphraseatsplash').click(function (){
         $('#walletyes').hide();  
@@ -290,7 +309,7 @@ $( document ).ready(function() {
         } else {
       
             var currentaddr = $("#xcpaddress").html();
-            $("#btcbalance").append("<div id='moreBTCinfo'><div style='margin: 20px 0 10px 0; font-size: 10px; font-weight: bold;'>"+currentaddr+"</div><div id='btcqr' style='margin: 10px auto 20px auto; height: 100px; width: 100px;'></div><div>Cost per transaction is 0.0001547 BTC.</div></div>");  
+            $("#btcbalance").append("<div id='moreBTCinfo'><div style='margin: 20px 0 10px 0; font-size: 10px; font-weight: bold;'>"+currentaddr+"</div><div id='btcqr' style='margin: 10px auto 20px auto; height: 100px; width: 100px;'></div><div>Cost per transaction is 0.0001547 BTC</div></div>");  
             var qrcode = new QRCode(document.getElementById("btcqr"), {
     			text: currentaddr,
     			width: 100,
@@ -393,6 +412,22 @@ $( document ).ready(function() {
       
   });  
     
+     $('#newsApp').click(function (){
+        
+        getNews();
+        
+    });
+    
+    
+    
+$(document).on('click', '#toolsTab', function () {
+    var $link = $('li.active a[data-toggle="tab"]');
+    $link.parent().removeClass('active');
+    var tabLink = $link.attr('href');
+    $('#allTabs a[href="' + tabLink + '"]').tab('show');
+});
+    
+    
    $(document).on("click", '#encryptPasswordButton', function (event) 
     {
         chrome.storage.local.get(["passphrase"], function (data)
@@ -417,14 +452,19 @@ $( document ).ready(function() {
         });
     });
 
-    $('#signMessageButton').click(function ()
+    $('.signMessageButton').click(function ()
         {
             var inputaddr = $("#signPubAddress").val();
             var inputpassphrase = $("#newpassphrase").html();
             var message = $("#messagetosign").val();
             
             var privkey = getprivkey(inputaddr, inputpassphrase);
-            var signed = signwith(privkey, inputaddr, message)
+            var signed = signwith(privkey, inputaddr, message);
+            
+            
+            if($(this).hasClass("copy")){
+                copyToClipboard(signed);
+            }
             
             $("#postSign").html(signed);
             

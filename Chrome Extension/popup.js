@@ -1,3 +1,34 @@
+
+function getNews(){
+     var source_html = "https://letstalkbitcoin.com/api/v1/blog/posts?limit=5";
+      
+    $("#newsStories").html("<div align='center' style='padding-top: 30px;'>Loading...</div>");
+    
+    $.getJSON( source_html, function( data ) {
+    
+        $("#newsStories").html("");
+        
+        $.each(data.posts, function(i, item) {
+           
+        var date = data.posts[i]["publishDate"];
+            
+        var title = data.posts[i]["title"];
+        var url = data.posts[i]["url"];
+        var image = data.posts[i]["coverImage"];
+        
+        //console.log(image);
+        
+        var title_display = "<a class='newslink' href='https://letstalkbitcoin.com/blog/post/"+url+"'><div class='newsArticle' align='center'><img src='"+image+"' height='240px' width='240px'><div class='lead' style='padding: 20px 0 0 0;'>"+title+"</div><div style='padding: 5px 0 10px 0;' class='small'>Published "+date.substring(0,10)+"</div></div></a>";
+        
+        //console.log(data); 
+        
+        $("#newsStories").append(title_display);
+            
+        });
+        
+    });
+}
+
 function setEncryptedTest() {
     
     chrome.storage.local.set(
@@ -62,6 +93,10 @@ function getStorage()
 }
 
 
+
+
+
+
 function copyToClipboard(text){
                 var copyDiv = document.createElement('div');
                 copyDiv.contentEditable = true;
@@ -121,17 +156,24 @@ function qrdepositDropdown() {
 function getBTCBalance(pubkey) {
     //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
     
-    var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
+    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
+    
+    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
     
     $.getJSON( source_html, function( data ) { 
         
-        //var bitcoinparsed = parseFloat(data) / 100000000;
-        var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
+        var bitcoinparsed = parseFloat(data) / 100000000;
+        
+        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
+        
+        
+        
         
         $("#btcbalhide").html(bitcoinparsed);
         
-        //var transactions = (parseFloat(data) / 15470) ;
-        var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547;
+        var transactions = (parseFloat(data) / 15470) ;
+        
+        //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547;
         
         //if (transactions >= 2) {// to include escrow amount req'd and tx fee
         
@@ -478,7 +520,7 @@ function loadAssets(add) {
     $.getJSON( xcp_source_html, function( data ) {  
         //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
         
-        var xcpbalance = data.xcp_balance;    
+        var xcpbalance = parseFloat(data.xcp_balance).toFixed(8);    
         
         if (typeof xcpbalance === 'undefined') {
             xcpbalance = 0;
@@ -492,8 +534,11 @@ function loadAssets(add) {
             
             var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
             
+            if (xcpbalance != 0) {
+            
             $( "#allassets" ).append("<div class='xcpasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div class='movetowallet'>Send</div><div class='assetqty'>"+xcpbalance+"</div></div></div>");
         
+            }
         
         
             $.each(data.data, function(i, item) {
@@ -517,6 +562,8 @@ function loadAssets(add) {
                 $( "#allassets" ).append( assethtml );
 
             });
+            
+            $( "#allassets" ).append("<div style='height: 20px;'></div>");
         
             loadTransactions(add);
         
@@ -663,6 +710,8 @@ function loadTransactions(add) {
             }
 
         });
+        
+        $( "#alltransactions" ).append("<div style='height: 20px;'></div>");
              
     });
     
@@ -768,6 +817,9 @@ function sendtokenaction() {
             }
             
 }
+
+
+
 
 //function setUnconfirmed(sendaddress, sendasset, sendamount) {
 //    
