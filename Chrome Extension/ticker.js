@@ -228,12 +228,12 @@ $( document ).ready(function() {
     
     $('#assettransactiontoggle').click(function ()
         { 
-            if ($('#assettransactiontoggle').html() == "View Assets") {
-                $('#assettransactiontoggle').html("View Asset Transaction History");
+            if ($('#assettransactiontoggle').html() == "View Tokens") {
+                $('#assettransactiontoggle').html("View Token Transaction History");
                 $('#alltransactions').hide();
                 $('#allassets').show();
             } else {
-                $('#assettransactiontoggle').html("View Assets");
+                $('#assettransactiontoggle').html("View Tokens");
                 $('#alltransactions').show();
                 $('#allassets').hide();
             }
