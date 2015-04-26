@@ -39,29 +39,67 @@ function rawtotxid(raw) {
 }
 
 
+//function assetid(asset_name) {
+//    
+//    //asset_name.toUpperCase();
+//
+//    if (asset_name != "XCP"){
+//    
+//        var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
+//        var name_array = asset_name.split("");
+//    
+//        var n = 0;
+//    
+//        for (i = 0; i < name_array.length; i++) { 
+//            n *= 26;
+//            n += b26_digits.indexOf(name_array[i]);
+//        }    
+//     
+//        var asset_id = n;
+//    
+//    } else {
+//        
+//        var asset_id = 1;
+//        
+//    }
+//    
+//    return asset_id;
+//    
+//}
+
 function assetid(asset_name) {
     
     //asset_name.toUpperCase();
 
-    if (asset_name != "XCP"){
+    if(asset_name != "XCP"){
     
         var b26_digits = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; 
         var name_array = asset_name.split("");
     
-        var n = 0;
+        //var n = 0;
+        var n_bigint = BigIntegerSM(0);
     
         for (i = 0; i < name_array.length; i++) { 
-            n *= 26;
-            n += b26_digits.indexOf(name_array[i]);
+            
+            //n *= 26;
+            //n += b26_digits.indexOf(name_array[i]);
+            
+            n_bigint = BigIntegerSM(n_bigint).multiply(26);
+            n_bigint = BigIntegerSM(n_bigint).add(b26_digits.indexOf(name_array[i]));
+                    
         }    
      
-        var asset_id = n;
+        //var asset_id = n;
+        var asset_id = n_bigint.toString(16);
     
     } else {
         
-        var asset_id = 1;
+        var asset_id = (1).toString(16);
         
     }
+    
+    //return asset_id;
+    console.log(asset_id);
     
     return asset_id;
     
@@ -73,7 +111,8 @@ function create_xcp_send_data(asset_name, amount) {
     var trailing_zeros = "000000000000000000000000000000000000000000000000000000000000000000";
     var asset_id = assetid(asset_name); 
     
-    var asset_id_hex = padprefix(asset_id.toString(16), 16);
+    //var asset_id_hex = padprefix(asset_id.toString(16), 16);
+    var asset_id_hex = padprefix(asset_id, 16);
     var amount_hex = padprefix((amount*100000000).toString(16), 16);
     
     console.log(asset_id_hex);
@@ -89,6 +128,8 @@ function create_xcp_send_data_opreturn(asset_name, amount) {
     
     var prefix = "434e54525052545900000000"; //CNTRPRTY
     var asset_id = assetid(asset_name); 
+    
+    console.log("from cxsdo: "+asset_id);
     
     var asset_id_hex = padprefix(asset_id.toString(16), 16);
     var amount_hex = padprefix((amount*100000000).toString(16), 16)
@@ -167,14 +208,14 @@ function addresses_from_datachunk(datachunk) {
 
 function isdatacorrect(data_chunk, asset, asset_total) {
             
-            var asset_id = assetid(asset);
+            var asset_id = padprefix(assetid(asset),16);
             
             var assethex = data_chunk.substring(42, 26);
             var amount = data_chunk.substring(58, 42);
-            var asset_dec = parseInt(assethex, 16);
+            //var asset_dec = parseInt(assethex, 16);
             var amount_dec = parseInt(amount, 16) / 100000000;
             
-            if (asset_id == asset_dec && asset_total == amount_dec) {
+            if (asset_id == assethex && asset_total == amount_dec) {
                 var correct = "yes";
             } else {
                 var correct = "no";
@@ -369,11 +410,13 @@ function sendXCP_opreturn(add_from, add_to, asset, asset_total, btc_total, trans
         
         var correct = isdatacorrect(check_data, asset, asset_total); 
         
+        console.log(correct);
+        
         console.log(datachunk_unencoded);
         
         var datachunk_encoded = xcp_rc4(utxo_key, datachunk_unencoded);
         
-        var sender_pubkeyhash = new bitcore.PublicKey(bitcore.PrivateKey.fromWIF(privkey));
+        //var sender_pubkeyhash = new bitcore.PublicKey(bitcore.PrivateKey.fromWIF(privkey));
         
         var scriptstring = "OP_RETURN 28 0x"+datachunk_encoded;
         var data_script = new bitcore.Script(scriptstring);
@@ -381,9 +424,7 @@ function sendXCP_opreturn(add_from, add_to, asset, asset_total, btc_total, trans
         var transaction = new bitcore.Transaction();
             
         for (i = 0; i < total_utxo.length; i++) {
-            transaction.from(total_utxo[i]);
-            
-            
+            transaction.from(total_utxo[i]);     
         }
         
         console.log(total_utxo);
@@ -394,9 +435,9 @@ function sendXCP_opreturn(add_from, add_to, asset, asset_total, btc_total, trans
         
         transaction.to(add_to, btc_total_satoshis);
         
-        var xcpdata_msig = new bitcore.Transaction.Output({script: data_script, satoshis: 0}); 
+        var xcpdata_opreturn = new bitcore.Transaction.Output({script: data_script, satoshis: 0}); 
        
-        transaction.addOutput(xcpdata_msig);
+        transaction.addOutput(xcpdata_opreturn);
         
         console.log(satoshi_change);
         
