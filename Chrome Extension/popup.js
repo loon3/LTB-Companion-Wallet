@@ -29,6 +29,49 @@ function getNews(){
     });
 }
 
+function searchLTBuser(username){
+
+     var source_html = "https://letstalkbitcoin.com/api/v1/users?search="+username;
+      
+    $("#ltbDirectorySearchResults").html("<div align='center' style='padding-top: 10px;'>Loading...</div>");
+    
+    $.getJSON( source_html, function( data ) {
+    
+        $("#ltbDirectorySearchResults").html("");
+
+        $.each(data.users, function(i, item) {
+            
+            var username = data.users[i]["username"];
+            
+            var avatar = data.users[i]["avatar"];
+            
+            var registered = data.users[i]["regDate"];
+            
+            if (i > 0) {
+                $("#ltbDirectorySearchResults").append("<hr>");
+            }
+            
+            
+            $("#ltbDirectorySearchResults").append("<div style='display: inline-block; padding: 0 20px 10px 0;'><img src='"+avatar+"' height='64px' width='64px'></div>");        
+            $("#ltbDirectorySearchResults").append("<div style='display: inline-block;' class='ltbDirectoryUsername'>"+username+"</div>");  
+            $("#ltbDirectorySearchResults").append("<div class='ltbDirectoryAddress'><i>Date Registered:</i><br>"+registered.substring(0,10)+"</div>");
+            
+            if(data.users[i]["profile"] == null || data.users[i]["profile"]["ltbcoin-address"] == undefined) {
+                $("#ltbDirectorySearchResults").append("<div class='ltbDirectoryAddress'><i>LTBCOIN Address:</i><br>No Address Listed</div>");
+            } else {
+                var ltbaddress = data.users[i]["profile"]["ltbcoin-address"]["value"];
+                $("#ltbDirectorySearchResults").append("<div class='ltbDirectoryAddress'><i>LTBCOIN Address:</i><br><div class='movetosend' style='display: inline-block;'>"+ltbaddress+"</div></div>");  
+            }
+            
+            
+            
+        });
+        
+    });      
+            
+}
+
+
 function setEncryptedTest() {
     
     chrome.storage.local.set(
@@ -289,12 +332,14 @@ if (currenttoken == "XCP") {
 function getPrimaryBalanceBTC(pubkey){
         
     //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
-    var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
+    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
+    
+    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
     
     $.getJSON( source_html, function( data ) { 
         
-        //var bitcoinparsed = parseFloat(data) / 100000000;
-        var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
+        var bitcoinparsed = parseFloat(data) / 100000000;
+        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
         
         $("#xcpbalance").html(bitcoinparsed + "<br><div style='font-size: 22px; font-weight: bold;'>BTC</div>");
         
@@ -337,8 +382,8 @@ function getRate(assetbalance, pubkey, currenttoken){
   
         var ltbprice = 1 / parseFloat(data.usd_ltb);     
         
-        $("#ltbPrice").html(ltbprice.toFixed(0));
-        
+        $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
+        $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
             
         if (currenttoken == "LTBCOIN") {
             var usdValue = parseFloat(data.usd_ltb) * parseFloat(assetbalance);
@@ -357,7 +402,7 @@ function getRate(assetbalance, pubkey, currenttoken){
     } else {
         
         if (currenttoken == "LTBCOIN") {
-            var ltbrate = $("#ltbPrice").html();
+            var ltbrate = $("#ltbPrice").data("ltbcoin").price;
             var usdrate = 1 / parseFloat(ltbrate);
             var usdValue = usdrate * parseFloat(assetbalance);
             $("#xcpfiatValue").html(usdValue.toFixed(2));

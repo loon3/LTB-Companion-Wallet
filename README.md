@@ -24,7 +24,7 @@ v0.2.1 - Update to chain.so API in place of blockchain.info
 
 v0.3.0 - Added Apps section, Shapeshift, What's New at LTB?, sign & copy function, btc balance api changed to Insight, passphrase field on initial login type change from masked to visible, XCP removed from asset inventory if balance is zero
 
-v0.3.1 - Now using op_return for send txs, asset to token terminology change (not yet available in Chrome Web Store)
+v0.3.1 - Now using op_return for send txs, asset to token terminology change, LTBn Directory
 
 ## Features
 

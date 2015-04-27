@@ -277,12 +277,14 @@
             </a>    
             
             
-            <div class="col-xs-4 toolicon comingsoon" align="center">
+            <a id="ltbDirectoryApp" href="#ltbDirectoryPage" data-toggle="tab">
+                <div class="col-xs-4 toolicon activetool" align="center">
                 
                     <img src="rolodex-icon.png" height="48" width="48">
                     <div class="small" style="padding: 5px;">LTBn Directory</div>
                 
-            </div>
+                </div>
+            </a>
             
             <div class="col-xs-4 toolicon comingsoon" align="center"> 
                 <img src="factory-icon.png" height="48" width="48">
@@ -302,6 +304,24 @@
             
             </div>
           </div>
+      
+      <div class="tab-pane" id="ltbDirectoryPage">
+        <div style="height: 50px; width: 100%; padding: 20px 10px 10px 10px;">
+            <div class="input-group">
+                <input id="ltbUserSearch" type="text" class="form-control" placeholder="Enter LTB username">
+                <span class="input-group-btn">
+                    <button id="searchLTBuser" class="btn btn-default" type="button">Search</button>
+                </span>
+            </div><!-- /input-group -->
+          
+        </div>
+          
+        <div id="ltbDirectorySearchResults" align="center" class="applink">
+            
+            
+            
+        </div>
+      </div>
       
       
       

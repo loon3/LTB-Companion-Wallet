@@ -325,11 +325,13 @@ $( document ).ready(function() {
  
   $(document).on("click", '#refreshWallet', function (event)
   {
-      
+      $("#ltbDirectorySearchResults").html("");
+      //$("#searchLTBuser").text("Search");
+
       $("#freezeUnconfirmed").css("display", "none");
       $("#mainDisplay").css("display", "block");
       
-      $("#sendtokenbutton").html("Send Token");
+      //$("#sendtokenbutton").html("Send Token");
       $("#sendtokenbutton").prop('disabled', false);
       $("#sendtoaddress").prop('disabled', false);
       $("#sendtoamount").prop('disabled', false);
@@ -344,6 +346,8 @@ $( document ).ready(function() {
       var pubkey = $("#xcpaddress").html();
       var currenttoken = $(".currenttoken").html();
       
+      $("#sendtokenbutton").html("Send "+currenttoken);
+      
       getRate(array[0], pubkey, currenttoken);
       
       getPrimaryBalance(pubkey);
@@ -351,7 +355,8 @@ $( document ).ready(function() {
     
   $('#switchtoxcp').click(function ()
   {
-      $(".currenttoken").html("LTBCOIN");     
+      $(".currenttoken").html("LTBCOIN"); 
+      $("#sendtokenbutton").html("Send LTBCOIN");
       var pubkey = $("#xcpaddress").html();
       getPrimaryBalance(pubkey);
       $('#allTabs a:first').tab('show');
@@ -388,6 +393,7 @@ $( document ).ready(function() {
       $(".currenttoken").html(currentasset);
       //$(".currenttoken").html("WORKS");
       
+      $("#sendtokenbutton").html("Send "+currentasset);
       
       var pubkey = $("#xcpaddress").html();
       
@@ -395,6 +401,20 @@ $( document ).ready(function() {
       getPrimaryBalance(pubkey);
       
       
+      $('#allTabs a:first').tab('show');
+      
+  });
+    
+     $(document).on("click", '.movetosend', function (event)
+  {  
+  
+      var sendaddress = $( this ).text();
+      
+      $("#sendtoaddress").val(sendaddress);
+      
+      $("#btcsendbox").show();
+      $("#moreBTCinfo").hide();
+
       $('#allTabs a:first').tab('show');
       
   });
@@ -412,12 +432,20 @@ $( document ).ready(function() {
       
   });  
     
-     $('#newsApp').click(function (){
+    $('#searchLTBuser').click(function (){
+        
+        var search_input = $("#ltbUserSearch").val();
+        
+        searchLTBuser(search_input);
+        
+    });
+    
+    
+    $('#newsApp').click(function (){
         
         getNews();
         
     });
-    
     
     
 $(document).on('click', '#toolsTab', function () {
@@ -514,7 +542,7 @@ $(document).on('click', '#toolsTab', function () {
             
             if (isNaN(sendamount) == false && $("#sendtoamount").filter(function() { return $(this).val(); }).length > 0){
             
-                var ltbtousd = $("#ltbPrice").html();
+                var ltbtousd = $("#ltbPrice").data("ltbcoin").price;
                 var sendinusd = sendamount / parseFloat(ltbtousd);
             
                 $("#sendUSD").html("($"+sendinusd.toFixed(2)+")");
