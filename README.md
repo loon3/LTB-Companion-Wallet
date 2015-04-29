@@ -26,6 +26,8 @@ v0.3.0 - Added Apps section, Shapeshift, What's New at LTB?, sign & copy functio
 
 v0.3.1 - Now using op_return for send txs, asset to token terminology change, LTBn Directory
 
+v0.3.2 - Fixes XCP NaN bug, LTBn Directory updated
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
