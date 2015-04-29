@@ -22,6 +22,8 @@ $( document ).ready(function() {
      return false;
    });
     
+  
+    
     $('#shapeshiftButton').click(function(){
         
         var selectedaddress = $("#shapeshiftPubAddress").val();
@@ -326,6 +328,7 @@ $( document ).ready(function() {
   $(document).on("click", '#refreshWallet', function (event)
   {
       $("#ltbDirectorySearchResults").html("");
+      $("#ltbUserSearch").val("");
       //$("#searchLTBuser").text("Search");
 
       $("#freezeUnconfirmed").css("display", "none");
@@ -431,6 +434,14 @@ $( document ).ready(function() {
     
       
   });  
+    
+    $("#ltbUserSearch").keyup(function(event){
+    if(event.keyCode == 13){
+        var search_input = $("#ltbUserSearch").val();
+        
+        searchLTBuser(search_input);
+    }
+    });
     
     $('#searchLTBuser').click(function (){
         

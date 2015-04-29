@@ -168,7 +168,15 @@ function showBTCtransactions(transactions) {
             
             //$("#btcbalance").html("<div style='font-size: 12px;'>You can perform "+transactions.toFixed(0)+" transactions</div><div id='depositBTC' align='center' style='margin: 5px; cursor: pointer; text-decoration: underline; font-size: 11px; color: #999;'>Deposit bitcoin for transaction fees</div>");
     
-            $("#btcbalance").html("<div style='font-size: 12px;'>You can perform <span id='txsAvailable'>"+transactions.toFixed(0)+"</span> transactions</div>");
+    if (transactions == 0) {
+              
+        $("#btcbalance").html("<div style='font-size: 12px;'>Deposit bitcoin to send tokens from this address.<span id='txsAvailable' style='display: none;'>"+transactions.toFixed(0)+"</span></div>");        
+                
+    } else {
+    
+        $("#btcbalance").html("<div style='font-size: 12px;'>You can perform <span id='txsAvailable'>"+transactions.toFixed(0)+"</span> transactions</div>");
+                
+    }
         
             //var titletext = data + " satoshis";
 
@@ -567,7 +575,7 @@ function loadAssets(add) {
         
         var xcpbalance = parseFloat(data.xcp_balance).toFixed(8);    
         
-        if (typeof xcpbalance === 'undefined') {
+        if (xcpbalance == 'NaN' || typeof xcpbalance === 'undefined') {
             xcpbalance = 0;
         }
     
