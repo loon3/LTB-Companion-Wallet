@@ -113,7 +113,9 @@ function create_xcp_send_data(asset_name, amount) {
     
     //var asset_id_hex = padprefix(asset_id.toString(16), 16);
     var asset_id_hex = padprefix(asset_id, 16);
-    var amount_hex = padprefix((amount*100000000).toString(16), 16);
+    var amount_round = parseInt((amount*100000000).toFixed(0));
+    
+    var amount_hex = padprefix((amount_round).toString(16), 16);
     
     console.log(asset_id_hex);
     console.log(amount_hex);
@@ -132,7 +134,10 @@ function create_xcp_send_data_opreturn(asset_name, amount) {
     console.log("from cxsdo: "+asset_id);
     
     var asset_id_hex = padprefix(asset_id.toString(16), 16);
-    var amount_hex = padprefix((amount*100000000).toString(16), 16)
+    
+    var amount_round = parseInt((amount*100000000).toFixed(0));
+    
+    var amount_hex = padprefix((amount_round).toString(16), 16);
                                
     var data = prefix + asset_id_hex + amount_hex; 
     

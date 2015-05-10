@@ -394,8 +394,9 @@ function sendtokenaction() {
 //
 //                    setTimeout(function() {
 //                        if (!success) {
-//                            $("#sendtoaddress").val("Invalid Address");
-//                            $("#sendtokenbutton").html("Refresh to continue");
+                            $("#sendtoamount").val("Invalid Address");
+                            $("#sendtokenbutton").html("Click to continue");
+                            $("#sendtokenbutton").prop('disabled', false);
 //                        }
 //                    }, 1500);
 
