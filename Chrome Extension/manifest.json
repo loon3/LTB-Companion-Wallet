@@ -13,9 +13,38 @@
       "16": "ltb-icon-orange-16.png",
       "48": "ltb-icon-orange-48.png"
    },
+   "content_scripts": [
+    {
+      "matches": ["http://joelooney.org/ltbcoin/*","https://letstalkbitcoin.com/*"],
+      "js": ["js/jquery.min.js", "js/tipbutton.js"]
+    }
+   ],
+   "web_accessible_resources": [
+        "*.png",
+        "tipsplash.html",
+        "js/jquery.min.js",
+        "js/bootstrap.min.js",
+        "js/aes.js",
+        "js/biginteger.js",
+        "js/utxo.js",
+        "js/xcp-js/transactions.js",
+        "js/xcp-js/rc4.js",
+        "js/xcp-js/convert-type.js",
+        "js/xcp-js/decode.js",
+        "popup.js",
+        "js/mnemonic.js",
+        "js/bitcore/bitcore.min.js",
+        "js/bitcoinsig.js",
+        "js/brainlite.js",
+        "js/bitcoinjs-min.js",
+        "js/qrcode.min.js",
+        "bootstrap.min.css",
+        "tipsplash.js",
+        "tipticker.js"
+   ],
    "manifest_version": 2,
    "name": "LTB Companion Wallet",
    "permissions": [ "storage", "clipboardWrite" ],
    "short_name": "LTB Companion Wallet",
-   "version": "0.3.2"
+   "version": "0.4.0"
 }
