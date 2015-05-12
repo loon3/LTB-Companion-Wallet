@@ -6,6 +6,12 @@ $( document ).ready(function() {
      var addressfromurl = parseURLParams(thisurl);
      var sendtoaddress = addressfromurl["address"][0];
      var addresslabel = addressfromurl["label"][0];
+    var isxcpurl = addressfromurl["isxcp"][0];
+    
+    if (isxcpurl != "true") {
+        $( "button.dropdown-toggle" ).toggleClass( "disabled" );
+        $( "button.dropdown-toggle" ).css( "opacity", "1" );
+    }
     
     $("#tip-label").html(addresslabel);
     $("#tip-address").html(sendtoaddress);

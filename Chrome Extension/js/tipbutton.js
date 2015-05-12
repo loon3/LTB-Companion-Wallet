@@ -7,8 +7,9 @@ var tipsplash = chrome.extension.getURL('tipsplash.html');
 $('.companion-tip-button').each(function(i, obj) {
     var address = $(this).attr("data-address");
     var label = $(this).attr("data-label");
+    var isxcp = $(this).attr("data-isxcp");
     var labelurl = encodeURIComponent(label);
-    var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"' target='_blank'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
+    var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"&isxcp="+isxcp+"' target='_blank'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
 
     $(this).html(tipbutton);
     

@@ -179,56 +179,64 @@ function getAssetsandBalances(add) {
             $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+btchtml+"</a></li>");
             
             
-            var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
+            var thisurl = window.location.href;
+            var addressfromurl = parseURLParams(thisurl);
+            var isaddressxcp = addressfromurl["isxcp"][0];
             
-            if (xcpbalance != 0) {
-                
-                $("#tokendropdown").show();
+            console.log("isxcp: "+isaddressxcp);
             
-                var xcphtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div>Balance: <span class='assetqty'>"+xcpbalance+"</span></div><div id='assetdivisible' style='display: none;'>yes</div></div></div>";
-                
-                if (assetdisplayed.length == 0) {
-                    $("#assetdisplayed").html(xcphtml);
-                }
-                $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+xcphtml+"</a></li>");
-        
-            }
+            if (isaddressxcp == "true") {
             
-            if (data.data.length == 0) {
-                $(".assetselect").append("<li role='presentation'><div style='padding: 10px;'>You have no tokens at this address.</div></li>");
-                $("#tokendropdown").hide();
-            }
-        
-            $.each(data.data, function(i, item) {
-                var assetname = data.data[i].asset;
-                var assetbalance = data.data[i].amount; //.balance for blockscan
-                if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
-                
-                var iconname = assetname.toLowerCase();
-                var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
-            
-                if (assetname.charAt(0) != "A") {
-                    
+                var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
+
+                if (xcpbalance != 0) {
+
                     $("#tokendropdown").show();
-                    
-                    var assethtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-                    
-                 
-                    $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+assethtml+"</a></li>");
-                    
-                    var assetdisplayed = $("#assetdisplayed").html();
-                    
+
+                    var xcphtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div>Balance: <span class='assetqty'>"+xcpbalance+"</span></div><div id='assetdivisible' style='display: none;'>yes</div></div></div>";
+
                     if (assetdisplayed.length == 0) {
-                          
-                        $("#assetdisplayed").html(assethtml);
-                        
+                        $("#assetdisplayed").html(xcphtml);
                     }
-        
-                } 
+                    $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+xcphtml+"</a></li>");
 
-            });
+                }
+
+                if (data.data.length == 0) {
+                    $(".assetselect").append("<li role='presentation'><div style='padding: 10px;'>You have no tokens at this address.</div></li>");
+                    $("#tokendropdown").hide();
+                }
+
+                $.each(data.data, function(i, item) {
+                    var assetname = data.data[i].asset;
+                    var assetbalance = data.data[i].amount; //.balance for blockscan
+                    if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+
+                    var iconname = assetname.toLowerCase();
+                    var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
+
+                    if (assetname.charAt(0) != "A") {
+
+                        $("#tokendropdown").show();
+
+                        var assethtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+
+
+                        $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+assethtml+"</a></li>");
+
+                        var assetdisplayed = $("#assetdisplayed").html();
+
+                        if (assetdisplayed.length == 0) {
+
+                            $("#assetdisplayed").html(assethtml);
+
+                        }
+
+                    } 
+
+                });
             
-
+            } 
         
         });
         
