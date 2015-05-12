@@ -170,6 +170,15 @@ function getAssetsandBalances(add) {
             
             //$(".assetselect").append("<option label='BTC'>BTC - Balance: "+btcbalance+"</option>");
             
+            var btcbalance = $("#btcbalhide").html();
+        
+            var btchtml = "<div class='btcasset row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div>Balance: <span class='assetqty'>"+btcbalance+"</span></div></div></div>";
+            
+            $("#assetdisplayed").html(btchtml);
+            
+            $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+btchtml+"</a></li>");
+            
+            
             var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
             
             if (xcpbalance != 0) {
@@ -178,9 +187,9 @@ function getAssetsandBalances(add) {
             
                 var xcphtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div>Balance: <span class='assetqty'>"+xcpbalance+"</span></div><div id='assetdivisible' style='display: none;'>yes</div></div></div>";
                 
-                
-                $("#assetdisplayed").html(xcphtml);
-                
+                if (assetdisplayed.length == 0) {
+                    $("#assetdisplayed").html(xcphtml);
+                }
                 $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+xcphtml+"</a></li>");
         
             }
@@ -348,24 +357,27 @@ function sendtokenaction() {
                         
                         var txsAvailable = $("#txsAvailable").html();
                         
-                        if (currenttoken == "BTC") {
+                        if (txsAvailable > 1) {
+                            
+                            if (currenttoken == "BTC") {
                     
-                            //sendBTC(pubkey, sendtoaddress, sendtoamount, minersfee);
+                                var minersfee = 0.0001;
+                                sendBTCsplash(pubkey, sendtoaddress, sendtoamount, minersfee);
                         
-                        } else if (txsAvailable > 1) {
+                            } else {
                             
-                            var btc_total = 0.0000547;  //total btc to receiving address
-                            var minersfee = 0.0001;
-                            var mnemonic = $("#passphrasefromstorage").html();
-                            
-                            $("#sendtokenbutton").html("Sending...");
-                            
-                            //sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
-                                         
-                            sendXCP_opreturn(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, minersfee, mnemonic); 
-                                                 
-                            //setUnconfirmed(pubkey, currenttoken, sendtoamount);
-                            
+                                var btc_total = 0.0000547;  //total btc to receiving address
+                                var minersfee = 0.0001;
+                                var mnemonic = $("#passphrasefromstorage").html();
+
+                                $("#sendtokenbutton").html("Sending...");
+
+                                //sendXCP(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, msig_total, minersfee, mnemonic); 
+
+                                sendXCP_opreturn(pubkey, sendtoaddress, currenttoken, sendtoamount, btc_total, minersfee, mnemonic); 
+
+                                //setUnconfirmed(pubkey, currenttoken, sendtoamount);
+                            }
                         }
                         
                          $("#sendtoaddress").prop('disabled', true);
@@ -403,6 +415,95 @@ function sendtokenaction() {
 
             }
             
+}
+
+
+
+function sendBTCsplash(add_from, add_to, sendtotal, transfee) {
+    
+    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";
+    
+    var total_utxo = new Array();   
+    var sendtotal_satoshis = parseFloat(sendtotal).toFixed(8) * 100000000;   
+    //sendtotal_satoshis.toFixed(0);
+    
+    console.log(sendtotal_satoshis);
+    sendtotal_satoshis = Math.round(sendtotal_satoshis);
+    console.log(sendtotal_satoshis);
+    
+    //console.log("sendtotal_satoshis " + sendtotal_satoshis);
+    
+    var mnemonic = $("#passphrasefromstorage").html();
+    
+    var privkey = getprivkey(add_from, mnemonic);
+    
+    
+    $.getJSON( source_html, function( data ) {
+        
+        var amountremaining = (parseFloat(sendtotal) + parseFloat(transfee));
+        
+        data.sort(function(a, b) {
+            return b.amount - a.amount;
+        });
+        
+        $.each(data, function(i, item) {
+            
+             var txid = data[i].txid;
+             var vout = data[i].vout;
+             var script = data[i].scriptPubKey;
+             var amount = parseFloat(data[i].amount);
+             
+             amountremaining = amountremaining - amount;            
+             amountremaining.toFixed(8);
+    
+             var obj = {
+                "txid": txid,
+                "address": add_from,
+                "vout": vout,
+                "scriptPubKey": script,
+                "amount": amount
+             };
+            
+             total_utxo.push(obj);
+              
+             //dust limit = 5460 
+            
+             if (amountremaining == 0 || amountremaining < -0.00005460) {                                 
+                 return false;
+             }
+             
+        });
+        
+        console.log(total_utxo);
+        
+        if (amountremaining < 0) {
+            var satoshi_change = -(amountremaining.toFixed(8) * 100000000).toFixed(0);
+        } else {
+            var satoshi_change = 0;
+        }
+        
+        console.log(satoshi_change);
+        
+        var transaction = new bitcore.Transaction();
+            
+        for (i = 0; i < total_utxo.length; i++) {
+            transaction.from(total_utxo[i]);
+        }
+        
+        transaction.to(add_to, sendtotal_satoshis);
+            
+        if (satoshi_change > 5459) {
+            transaction.to(add_from, satoshi_change);
+        }
+        transaction.sign(privkey);
+
+        var final_trans = transaction.serialize();
+        
+        console.log(final_trans);
+        
+        sendBTCpush(final_trans);
+    });
+       
 }
 
 
