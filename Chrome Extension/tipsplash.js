@@ -144,7 +144,7 @@ function assetDropdown(m)
 
 function getAssetsandBalances(add) {
     
-    getBTCBalance(add);
+    getBTCBalance(add, function(){
     
     //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
     
@@ -233,42 +233,25 @@ function getAssetsandBalances(add) {
         });
         
     });
+        });
 }
 
-function getBTCBalance(pubkey) {
-    //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
-    
-    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
+function getBTCBalance(pubkey, callback) {
     
     var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
     
     $.getJSON( source_html, function( data ) { 
         
-        var bitcoinparsed = parseFloat(data) / 100000000;
-        
-        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
-        
-        
-        
+        var bitcoinparsed = parseFloat(data) / 100000000;     
         
         $("#btcbalhide").html(bitcoinparsed);
         
         var transactions = (parseFloat(data) / 15470) ;
         
-        //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547;
+        showBTCtransactions(transactions);
         
-        //if (transactions >= 2) {// to include escrow amount req'd and tx fee
-        
-           showBTCtransactions(transactions);
+        callback();
             
-        //} 
-        
-//        else {
-//            
-//           qrdepositDropdown(); 
-//            
-//        }
-        
     });
 }
 
