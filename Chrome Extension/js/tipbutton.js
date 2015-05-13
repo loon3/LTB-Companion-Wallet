@@ -11,7 +11,7 @@ $('.companion-tip-button').each(function(i, obj) {
 //    var isxcp = $(this).attr("data-isxcp");
     var tokens = $(this).attr("data-tokens");
     
-    var labelurl = encodeURIComponent(label);
+    var labelurl = encodeURIComponent(label).replace(/[!'()*]/g, escape);
     var tokensurl = encodeURIComponent(tokens);
     
     var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"&tokens="+tokensurl+"' target='_blank'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
