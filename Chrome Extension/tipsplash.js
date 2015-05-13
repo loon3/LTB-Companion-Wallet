@@ -146,102 +146,155 @@ function getAssetsandBalances(add) {
     
     getBTCBalance(add, function(){
     
-    //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
-    
-    var source_html = "https://counterpartychain.io/api/balances/"+add;
-    
-    var xcp_source_html = "http://counterpartychain.io/api/address/"+add;
-    
-    $( ".assetselect" ).html("");
-    $("#assetdisplayed").html("");
-    
-    
-    
-    $.getJSON( xcp_source_html, function( data ) {  
-        //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
+        //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
+
+        var source_html = "https://counterpartychain.io/api/balances/"+add;
+
+        var xcp_source_html = "http://counterpartychain.io/api/address/"+add;
+
+        $( ".assetselect" ).html("");
+        $("#assetdisplayed").html("");
+
         
-        var xcpbalance = parseFloat(data.xcp_balance).toFixed(8);    
+        var thisurl = window.location.href;
+        var tokensfromurl = parseURLParams(thisurl);
+        var spectokens = tokensfromurl["tokens"][0].toUpperCase();
+        var tokenarray = spectokens.split(",");
+
+        console.log(tokenarray);
         
-        if (xcpbalance == 'NaN' || typeof xcpbalance === 'undefined') {
-            xcpbalance = 0;
+        if (tokenarray[0] == "UNDEFINED") {
+        
+            tokenarray[0] = "BTC";
+        
         }
-    
-        $.getJSON( source_html, function( data ) {
-            
-            //$(".assetselect").append("<option label='BTC'>BTC - Balance: "+btcbalance+"</option>");
-            
-            var btcbalance = $("#btcbalhide").html();
-        
-            var btchtml = "<div class='btcasset row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div>Balance: <span class='assetqty'>"+btcbalance+"</span></div></div></div>";
-            
-            $("#assetdisplayed").html(btchtml);
-            
-            $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+btchtml+"</a></li>");
-            
-            
-            var thisurl = window.location.href;
-            var addressfromurl = parseURLParams(thisurl);
-            var isaddressxcp = addressfromurl["isxcp"][0];
-            
-            console.log("isxcp: "+isaddressxcp);
-            
-            if (isaddressxcp == "true") {
-            
-                var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
+        if ($("#acceptedtokens").html().length == 0) {
+            $.each(tokenarray, function(i, item) {
+
+
+                    if (i > 0 ){
+                        $("#acceptedtokens").append(", ");
+                    }
+
+                    $("#acceptedtokens").append(tokenarray[i]);
+
+
+            });
+        }
+
+        $.getJSON( xcp_source_html, function( data ) {  
+            //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
+
+            var xcpbalance = parseFloat(data.xcp_balance).toFixed(8);    
+
+            if (xcpbalance == 'NaN' || typeof xcpbalance === 'undefined') {
+                xcpbalance = 0;
+            }
+
+            $.getJSON( source_html, function( data ) {
+
+                //$(".assetselect").append("<option label='BTC'>BTC - Balance: "+btcbalance+"</option>");
+
+                if (tokenarray[0] == "ALL" || jQuery.inArray("BTC", tokenarray) !== -1) {
+
+                    var btcbalance = $("#btcbalhide").html();
+
+                    var btchtml = "<div class='btcasset row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div>Balance: <span class='assetqty'>"+btcbalance+"</span></div></div></div>";
+
+                    $("#assetdisplayed").html(btchtml);
+
+                    $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+btchtml+"</a></li>");
+
+                }
+                //console.log("isxcp: "+spectokens);
+
+                //if (isaddressxcp == "true") {
+
+
 
                 if (xcpbalance != 0) {
+                    
+                    if (tokenarray[0] == "ALL" || jQuery.inArray("XCP", tokenarray) !== -1) {
 
-                    $("#tokendropdown").show();
+                        var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
 
-                    var xcphtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div>Balance: <span class='assetqty'>"+xcpbalance+"</span></div><div id='assetdivisible' style='display: none;'>yes</div></div></div>";
+                        //$("#tokendropdown").show();
 
-                    if (assetdisplayed.length == 0) {
-                        $("#assetdisplayed").html(xcphtml);
-                    }
-                    $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+xcphtml+"</a></li>");
-
-                }
-
-                if (data.data.length == 0) {
-                    $(".assetselect").append("<li role='presentation'><div style='padding: 10px;'>You have no tokens at this address.</div></li>");
-                    $("#tokendropdown").hide();
-                }
-
-                $.each(data.data, function(i, item) {
-                    var assetname = data.data[i].asset;
-                    var assetbalance = data.data[i].amount; //.balance for blockscan
-                    if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
-
-                    var iconname = assetname.toLowerCase();
-                    var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
-
-                    if (assetname.charAt(0) != "A") {
-
-                        $("#tokendropdown").show();
-
-                        var assethtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
-
-
-                        $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+assethtml+"</a></li>");
+                        var xcphtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div>Balance: <span class='assetqty'>"+xcpbalance+"</span></div><div id='assetdivisible' style='display: none;'>yes</div></div></div>";
 
                         var assetdisplayed = $("#assetdisplayed").html();
-
+                        
                         if (assetdisplayed.length == 0) {
+                            $("#assetdisplayed").html(xcphtml);
+                        }
+                        
+                        $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+xcphtml+"</a></li>");
 
-                            $("#assetdisplayed").html(assethtml);
+                    }
+                }
 
+    //                if (data.data.length == 0) {
+    //                    $(".assetselect").append("<li role='presentation'><div style='padding: 10px;'>You have no tokens at this address.</div></li>");
+    //                    $("#tokendropdown").hide();
+    //                }
+
+                $.each(data.data, function(i, item) {
+                    
+                    var assetname = data.data[i].asset;
+
+                    if (assetname.charAt(0) != "A") {
+                        
+                        if (tokenarray[0] == "ALL" || jQuery.inArray(assetname, tokenarray) !== -1) {
+                        
+                            var assetbalance = data.data[i].amount; //.balance for blockscan
+                            if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+
+                            var iconname = assetname.toLowerCase();
+                            var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
+
+                            //$("#tokendropdown").show();
+
+                            var assethtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+
+
+                            $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+assethtml+"</a></li>");
+
+                            var assetdisplayed = $("#assetdisplayed").html();
+
+                            if (assetdisplayed.length == 0) {
+
+                                $("#assetdisplayed").html(assethtml);
+
+                            }
+                            
                         }
 
                     } 
+                    
+                    
 
                 });
-            
-            } 
-        
+                
+                var assetdisplayed = $("#assetdisplayed").html();
+                
+                if (assetdisplayed.length == 0) {
+
+                        $("#btcbalance").html("<div style='font-size: 12px;'>You do not have accepted tokens at this address.</div>");        
+                        $("#tokendropdown").hide(); 
+
+                }
+                
+                if ($(".assetselect li").length == 1 && tokenarray[0] != "ALL") {
+
+                    $( "button.dropdown-toggle" ).addClass( "disabled" );
+                    $( "button.dropdown-toggle" ).css( "opacity", "1" );
+
+                }
+
+            });
+
         });
-        
     });
-        });
 }
 
 function getBTCBalance(pubkey, callback) {

@@ -6,12 +6,12 @@ $( document ).ready(function() {
      var addressfromurl = parseURLParams(thisurl);
      var sendtoaddress = addressfromurl["address"][0];
      var addresslabel = addressfromurl["label"][0];
-    var isxcpurl = addressfromurl["isxcp"][0];
+    //var isxcpurl = addressfromurl["isxcp"][0];
     
-    if (isxcpurl != "true") {
-        $( "button.dropdown-toggle" ).toggleClass( "disabled" );
-        $( "button.dropdown-toggle" ).css( "opacity", "1" );
-    }
+//    if (isxcpurl != "true") {
+//        $( "button.dropdown-toggle" ).toggleClass( "disabled" );
+//        $( "button.dropdown-toggle" ).css( "opacity", "1" );
+//    }
     
     $("#tip-label").html(addresslabel);
     $("#tip-address").html(sendtoaddress);
@@ -72,21 +72,17 @@ getExtStorage();
     $( "#walletaddresses" ).change(function () {
         
         $("#sendtokenbutton").html("Send");
-            $("#sendtoamount").val("");
-            $("#sendtokenbutton").prop('disabled', false);
+        $("#sendtoamount").val("");
+        $("#sendtokenbutton").prop('disabled', false);
     
         var addr = $(this).val();
                     
         $("#xcpaddress").html(addr);
     
         getAssetsandBalances(addr);
-        
-        
-        
+          
         $(".selectedtoken").html("");
-        
-        
-                    
+                     
     });
     
     $(document).on("click", '.singleasset', function (event) {  
@@ -99,9 +95,7 @@ getExtStorage();
         
           $("#sendtokenbutton").html("Send");
             $("#sendtoamount").val("");
-            $("#sendtokenbutton").prop('disabled', false);
-    
-      
+            $("#sendtokenbutton").prop('disabled', false); 
         
     });    
     

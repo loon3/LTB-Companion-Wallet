@@ -5,21 +5,27 @@ var iconpath = chrome.extension.getURL('ltb-icon-orange-48.png');
 var tipsplash = chrome.extension.getURL('tipsplash.html');
 
 $('.companion-tip-button').each(function(i, obj) {
+    
     var address = $(this).attr("data-address");
     var label = $(this).attr("data-label");
-    var isxcp = $(this).attr("data-isxcp");
+//    var isxcp = $(this).attr("data-isxcp");
+    var tokens = $(this).attr("data-tokens");
+    
     var labelurl = encodeURIComponent(label);
-    var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"&isxcp="+isxcp+"' target='_blank'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
+    var tokensurl = encodeURIComponent(tokens);
+    
+    var tipbutton = "<div style='display: inline-block; padding: 5px;'><a href='"+tipsplash+"?address="+address+"&label="+labelurl+"&tokens="+tokensurl+"' target='_blank'><img src='"+iconpath+"' height='24px' width='24px'></a></div>";
+    
+    //"&isxcp="+isxcp+
 
     $(this).html(tipbutton);
     
 });
 
 if (document.location.hostname == "chain.so") {
+
     $('kbd').each(function(i, obj) {
-        
-        //$(this).append("yeah");
-        
+    
         if (i == 0) {
             
             console.log($(this).text());
@@ -41,8 +47,6 @@ if (document.location.hostname == "chain.so") {
                 
                 console.log(assetnamed);
                 
-//                $(this).append("yeah");
-//                $(this).append("oh");
                 
                 var source_html = "https://counterpartychain.io/api/asset/"+assetnamed;
                 
