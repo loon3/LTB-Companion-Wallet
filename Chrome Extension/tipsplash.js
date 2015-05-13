@@ -33,6 +33,8 @@ function getExtStorage()
             
                 $("#pinsplash").hide();
                 $(".hideEncrypted").show();
+                
+                $("#acceptedbox").show();
                   
                 existingExtPassphrase(data.passphrase);
             
@@ -41,6 +43,7 @@ function getExtStorage()
                 
                 $(".hideEncrypted").hide();
                 $("#pinsplash").show();
+                $("#acceptedbox").hide();
                
             } 
        
@@ -144,12 +147,13 @@ function assetDropdown(m)
 
 function getAssetsandBalances(add) {
     
+    $( "button.dropdown-toggle" ).removeClass( "disabled" );
+    
     getBTCBalance(add, function(){
     
         //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
 
         var source_html = "https://counterpartychain.io/api/balances/"+add;
-
         var xcp_source_html = "http://counterpartychain.io/api/address/"+add;
 
         $( ".assetselect" ).html("");

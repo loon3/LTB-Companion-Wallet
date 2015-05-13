@@ -62,6 +62,7 @@ getExtStorage();
                 
                 $("#pinsplash").hide();
                 $(".hideEncrypted").show();
+                $("#acceptedbox").show();
                 
                 existingExtPassphrase(decrypted.toString(CryptoJS.enc.Utf8));
                 
