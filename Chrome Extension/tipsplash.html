@@ -72,13 +72,19 @@
     <div id="yourtxid" style="width: 480px; margin: auto; padding-bottom: 100px;" class="lead" align="center">
     
        <div align="center" style="padding: 10px 0 20px 0;">
-            <div style="font-size: 48px; font-weight: 100; padding: 0 0 10px 0;">Send to</div>
+            <div style="font-size: 48px; font-weight: 100; padding: 0 0 5px 0;">Send to</div>
             <div id="tip-label" style="font-size: 36px; font-weight: bold;"></div>
             <div id="tip-address" style="font-size: 14px; padding: 5px 0 20px 0;"></div>
             
             <div id="acceptedbox">
-                <div style="padding: 20px 0 10px 0;"><span style="font-size: 16px;">Tokens Accepted:</span> <span id="acceptedtokens" style="font-weight: bold;"></span></div>
-                <div style="font-size: 12px;">Only accepted tokens are visible in your wallet below.</div>
+
+                <div class="panel panel-success" style="margin: 20px 0 10px 0; width: 50%; font-size: 14px;">
+                  <div class="panel-heading">Now Accepting</div>
+                  <div class="panel-body">
+                    <div id="acceptedtokens" style="font-weight: bold; font-size: 18px;"></div>
+                  </div>
+                </div>
+                
             </div>
         </div>
         
@@ -101,7 +107,7 @@
        
         
         
-    <div style="margin: 20px auto 10px auto; width: 300px;">
+    <div style="margin: 20px auto 5px auto; width: 300px;">
         <div style="font-weight: bold; padding-bottom: 3px; font-size: 14px;" align="center">Your Wallet Address</div>
         <select id="walletaddresses" class="addressselect form-control" style="font-size: 12px; border: 2px solid #BB827B;"></select>
     </div>
@@ -120,10 +126,11 @@
 
           </ul>
         </div>
+        <div style="font-size: 12px; padding: 5px 0 0 0;">Only accepted tokens will appear above.</div>
     </div>
 </div>
     
-    <div class="row" style="width: 375px; margin: 30px auto;">
+    <div class="row" style="width: 375px; margin: 30px auto; padding: 0 0 10px 0;">
     <div class="col-xs-12" align="center">
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Send Amount" id="sendtoamount" style="border: 1px solid #BB827B; ">

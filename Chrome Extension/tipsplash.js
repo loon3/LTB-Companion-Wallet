@@ -148,6 +148,7 @@ function assetDropdown(m)
 function getAssetsandBalances(add) {
     
     $( "button.dropdown-toggle" ).removeClass( "disabled" );
+    $("#acceptedbox").show();
     
     getBTCBalance(add, function(){
     

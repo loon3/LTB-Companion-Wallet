@@ -2,6 +2,8 @@ var bitcore = require('bitcore');
 
 $( document ).ready(function() {  
     
+    
+    
      var thisurl = window.location.href;
      var addressfromurl = parseURLParams(thisurl);
      var sendtoaddress = addressfromurl["address"][0];
@@ -62,7 +64,7 @@ getExtStorage();
                 
                 $("#pinsplash").hide();
                 $(".hideEncrypted").show();
-                $("#acceptedbox").show();
+                $("#acceptedbox").hide();
                 
                 existingExtPassphrase(decrypted.toString(CryptoJS.enc.Utf8));
                 
