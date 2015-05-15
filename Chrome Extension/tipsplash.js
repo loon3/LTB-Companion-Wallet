@@ -317,6 +317,7 @@ function getAssetsandBalances(add) {
                         $(".progress").hide();
                         $(".hideEncrypted").show();
                         $("#acceptedbox").show();
+                        $("#fulldropdown").show();
                     }, 500);
                 
                     
