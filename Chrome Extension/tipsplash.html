@@ -48,6 +48,19 @@
     a {
         
     }
+    #whitetipbox {
+        border-radius: 25px;
+        border: 2px solid #000;
+        padding: 20px; 
+        background-color: #fff;
+        width: 600px;
+        margin: 20px auto 20px auto;
+        box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.5);
+    }
+        body {
+            background-image: url(ltb_bg.jpg);
+            background-repeat: repeat;
+        }
     </style>
     
 </head>
@@ -66,10 +79,10 @@
         
     </div>
     
-    
+    <div id="whitetipbox">
     
     <div id="tipsendcomplete" class="h1" align="center"></div>
-    <div id="yourtxid" style="width: 480px; margin: auto; padding-bottom: 100px;" class="lead" align="center">
+    <div style="width: 480px; margin: auto; padding-bottom: 50px;" class="lead tipsendcomplete" align="center">
     
        <div align="center" style="padding: 10px 0 20px 0;">
             <div style="font-size: 48px; font-weight: 100; padding: 0 0 5px 0;">Send to</div>
@@ -78,7 +91,7 @@
             
             <div id="acceptedbox">
 
-                <div class="panel panel-success" style="margin: 20px 0 10px 0; width: 50%; font-size: 14px;">
+                <div class="panel panel-success" style="margin: 20px 0 20px 0; width: 50%; font-size: 14px;">
                   <div class="panel-heading">Now Accepting</div>
                   <div class="panel-body">
                     <div id="acceptedtokens" style="font-weight: bold; font-size: 18px;"></div>
@@ -87,6 +100,13 @@
                 
             </div>
         </div>
+        
+        
+            <div class="progress" style="margin-top: 30px;">
+              <div class="progress-bar progress-bar-info progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+              </div>
+            </div>
+        
         
         <div id="pinsplash" style="display: none; margin-bottom: 100px;">         
             <form>
@@ -145,10 +165,11 @@
     </div>
     
 </div>
+        
         </div>
    
-    
-
+    <div id="nameversion" align="center" class="small"></div>
+</div>
 
 </body>
 </html>

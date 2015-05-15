@@ -1,3 +1,10 @@
+function progressbar(valeur, callback) {
+
+  $('.progress-bar').css('width', valeur+'%').attr('aria-valuenow', valeur);    
+   
+  callback();
+}
+
 function parseURLParams(url) {
     var queryStart = url.indexOf("?") + 1,
         queryEnd   = url.indexOf("#") + 1 || url.length + 1,
@@ -32,15 +39,16 @@ function getExtStorage()
             if ( data.encrypted == false) {
             
                 $("#pinsplash").hide();
-                $(".hideEncrypted").show();
+                $(".hideEncrypted").hide();
+                $(".progress").show();
                 
-                $("#acceptedbox").show();
+                $("#acceptedbox").hide();
                   
                 existingExtPassphrase(data.passphrase);
             
             } else if ( data.encrypted == true) {
             
-                
+                $(".progress").hide();
                 $(".hideEncrypted").hide();
                 $("#pinsplash").show();
                 $("#acceptedbox").hide();
@@ -148,10 +156,13 @@ function assetDropdown(m)
 function getAssetsandBalances(add) {
     
     $( "button.dropdown-toggle" ).removeClass( "disabled" );
-    $("#acceptedbox").show();
+    
+    
+    progressbar(10, function(){});
     
     getBTCBalance(add, function(){
     
+        progressbar(60, function(){});
         //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
 
         var source_html = "https://counterpartychain.io/api/balances/"+add;
@@ -188,6 +199,8 @@ function getAssetsandBalances(add) {
         }
 
         $.getJSON( xcp_source_html, function( data ) {  
+            
+            progressbar(70, function(){});
             //var assetbalance = parseFloat(data.data[0].balance) + parseFloat(data.data[0].unconfirmed_balance); 
 
             var xcpbalance = parseFloat(data.xcp_balance).toFixed(8);    
@@ -197,6 +210,8 @@ function getAssetsandBalances(add) {
             }
 
             $.getJSON( source_html, function( data ) {
+                
+                progressbar(85, function(){});
 
                 //$(".assetselect").append("<option label='BTC'>BTC - Balance: "+btcbalance+"</option>");
 
@@ -295,6 +310,17 @@ function getAssetsandBalances(add) {
                     $( "button.dropdown-toggle" ).css( "opacity", "1" );
 
                 }
+                
+                progressbar(100, function(){
+                
+                    setInterval(function(){
+                        $(".progress").hide();
+                        $(".hideEncrypted").show();
+                        $("#acceptedbox").show();
+                    }, 500);
+                
+                    
+                });
 
             });
 

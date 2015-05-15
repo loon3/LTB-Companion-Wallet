@@ -2,7 +2,7 @@ var bitcore = require('bitcore');
 
 $( document ).ready(function() {  
     
-    
+    $("#acceptedbox").hide();
     
      var thisurl = window.location.href;
      var addressfromurl = parseURLParams(thisurl);
@@ -19,6 +19,11 @@ $( document ).ready(function() {
     $("#tip-address").html(sendtoaddress);
 
 getExtStorage();
+    
+    var manifest = chrome.runtime.getManifest();
+    
+    $("#nameversion").html("LTB Companion Wallet v" + manifest.version);
+    
     
     var JsonFormatter = {
         stringify: function (cipherParams) {
@@ -63,8 +68,9 @@ getExtStorage();
             if (decrypted_passphrase.length > 0) {
                 
                 $("#pinsplash").hide();
-                $(".hideEncrypted").show();
-                $("#acceptedbox").hide();
+                $(".progress").show();
+                //$(".hideEncrypted").show();
+                //$("#acceptedbox").hide();
                 
                 existingExtPassphrase(decrypted.toString(CryptoJS.enc.Utf8));
                 

@@ -15,7 +15,7 @@ function ajax(url, data, rawtx) {
             $("#mainDisplay").css("display", "none");
             //$("#yourtxid").html("<a href='https://blockchain.info/tx/"+newTxid+"'>View Transaction</a>");
             $("#yourtxid").html("<a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a>");
-            $("#tipsendcomplete").html("<div style='padding: 60px 0 60px 0;'>Send Complete!</div>");
+            $(".tipsendcomplete").html("<div class='h1' style='padding: 60px 0 30px 0;'>Send Complete!</div><div class='h4'>Token balances update in wallet after one confirmation</div><hr><div class='h2'><a href='https://chain.so/tx/BTC/"+newTxid+"'>View Transaction</a></div>");
             
             xhr.close;
         }
