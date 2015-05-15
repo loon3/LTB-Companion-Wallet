@@ -1,8 +1,10 @@
 //var address = $(".companion-tip-address").text();
 
 var iconpath = chrome.extension.getURL('ltb-icon-orange-48.png');
-
 var tipsplash = chrome.extension.getURL('tipsplash.html');
+
+$('.companionurl').html(tipsplash);
+$('.companionimage').html(iconpath);
 
 $('.companion-tip-button').each(function(i, obj) {
     
