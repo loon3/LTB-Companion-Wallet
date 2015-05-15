@@ -219,11 +219,11 @@ function getAssetsandBalances(add) {
 
                     var btcbalance = $("#btcbalhide").html();
 
-                    var btchtml = "<div class='btcasset row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div>Balance: <span class='assetqty'>"+btcbalance+"</span></div></div></div>";
+                    var btchtml = "<div class='btcasset row linkpointer' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div>Balance: <span class='assetqty'>"+btcbalance+"</span></div></div></div>";
 
                     $("#assetdisplayed").html(btchtml);
 
-                    $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+btchtml+"</a></li>");
+                    $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1'>"+btchtml+"</a></li>");
 
                 }
                 //console.log("isxcp: "+spectokens);
@@ -240,7 +240,7 @@ function getAssetsandBalances(add) {
 
                         //$("#tokendropdown").show();
 
-                        var xcphtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div>Balance: <span class='assetqty'>"+xcpbalance+"</span></div><div id='assetdivisible' style='display: none;'>yes</div></div></div>";
+                        var xcphtml = "<div class='row linkpointer' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+xcpicon+"'></div><div class='col-xs-10'><div class='assetname'>XCP</div><div>Balance: <span class='assetqty'>"+xcpbalance+"</span></div><div id='assetdivisible' style='display: none;'>yes</div></div></div>";
 
                         var assetdisplayed = $("#assetdisplayed").html();
                         
@@ -248,7 +248,7 @@ function getAssetsandBalances(add) {
                             $("#assetdisplayed").html(xcphtml);
                         }
                         
-                        $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+xcphtml+"</a></li>");
+                        $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1'>"+xcphtml+"</a></li>");
 
                     }
                 }
@@ -274,10 +274,10 @@ function getAssetsandBalances(add) {
 
                             //$("#tokendropdown").show();
 
-                            var assethtml = "<div class='row' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                            var assethtml = "<div class='row linkpointer' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
 
 
-                            $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1' href='#'>"+assethtml+"</a></li>");
+                            $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1'>"+assethtml+"</a></li>");
 
                             var assetdisplayed = $("#assetdisplayed").html();
 
