@@ -317,7 +317,8 @@ function getAssetsandBalances(add) {
                         $(".progress").hide();
                         $(".hideEncrypted").show();
                         $("#acceptedbox").show();
-                        $("#fulldropdown").show();
+                        $("#fulldropdown").css( "visibility", "visible" );
+			                  $( "#walletaddresses" ).removeProp( "disabled" );
                     }, 500);
                 
                     
