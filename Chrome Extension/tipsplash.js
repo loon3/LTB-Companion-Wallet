@@ -291,7 +291,8 @@ function getAssetsandBalances(add) {
 
                     } 
                     
-                    
+                	$("#fulldropdown").css( "visibility", "visible" );
+			$( "#walletaddresses" ).removeProp( "disabled" );    
 
                 });
                 
@@ -317,8 +318,7 @@ function getAssetsandBalances(add) {
                         $(".progress").hide();
                         $(".hideEncrypted").show();
                         $("#acceptedbox").show();
-                        $("#fulldropdown").css( "visibility", "visible" );
-			                  $( "#walletaddresses" ).removeProp( "disabled" );
+                        
                     }, 500);
                 
                     
