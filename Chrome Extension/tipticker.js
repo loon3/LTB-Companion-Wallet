@@ -80,6 +80,8 @@ getExtStorage();
     
     $( "#walletaddresses" ).change(function () {
         
+        $("#fulldropdown").hide();
+        
         $("#sendtokenbutton").html("Send");
         $("#sendtoamount").val("");
         $("#sendtokenbutton").prop('disabled', false);
