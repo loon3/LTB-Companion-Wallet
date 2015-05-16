@@ -80,8 +80,11 @@ getExtStorage();
     
     $( "#walletaddresses" ).change(function () {
         
+        $( "#btcbalance" ).html("<div style='font-size: 12px;'>Thinking...</div>");
         $( "#walletaddresses" ).prop( "disabled" );      
-        $("#fulldropdown").css( "visibility", "hidden" );
+        //$("#fulldropdown").css( "visibility", "hidden" );
+        $("#fulldropdown").css("display", "none");
+        $("#dropdown-working").css("display", "block");
         
         $("#sendtokenbutton").html("Send");
         $("#sendtoamount").val("");

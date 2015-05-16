@@ -291,8 +291,12 @@ function getAssetsandBalances(add) {
 
                     } 
                     
-                	$("#fulldropdown").css( "visibility", "visible" );
-			$( "#walletaddresses" ).removeProp( "disabled" );    
+                	$("#fulldropdown").css( "display", "block" );
+                    //$("#fulldropdown").show();
+                    $("#dropdown-working").css("display", "none");
+                    
+                    
+			        $( "#walletaddresses" ).removeProp( "disabled" );    
 
                 });
                 
