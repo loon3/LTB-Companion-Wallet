@@ -15,7 +15,7 @@
    },
    "content_scripts": [
     {
-      "matches": ["http://joelooney.org/ltbcoin/*","https://letstalkbitcoin.com/*","https://chain.so/*"],
+      "matches": ["https://letstalkbitcoin.com/*","https://chain.so/*"],
       "js": ["js/jquery.min.js", "js/tipbutton.js"]
     }
    ],
