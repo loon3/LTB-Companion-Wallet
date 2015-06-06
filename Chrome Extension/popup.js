@@ -604,6 +604,8 @@ function loadAssets(add) {
             
                 if (assetname.charAt(0) != "A") {
                     var assethtml = "<div class='singleasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>"+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+        
+//<div class='tokenlink'>Hide</div> - <div class='tokenlink'>Add to Favorites</div>                    
                     
 //                    if(assetname == "LTBCOIN") {
 //                    var assethtml = "<div class='enhancedasset'><div class='assetname'>"+assetname+"</div><div class='movetowallet'>Send</div><div class='assetqty'>Balance: "+assetbalance+"</div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div>";
