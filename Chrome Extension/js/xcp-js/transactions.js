@@ -360,12 +360,16 @@ function sendXCP_opreturn(add_from, add_to, asset, asset_total, btc_total, trans
     
     var privkey = getprivkey(add_from, mnemonic);
      
-    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";
+ //var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";  
+    var source_html = "http://btc.blockr.io/api/v1/address/unspent/"+add_from;
+    
     var total_utxo = new Array();   
        
-    $.getJSON( source_html, function( data ) {
+    $.getJSON( source_html, function( apidata ) {
         
         var amountremaining = ((parseFloat(btc_total) * 100000000) + (parseFloat(transfee)*100000000))/100000000;
+        
+        var data = apidata.data.unspent;
         
         console.log(amountremaining);
         
@@ -375,9 +379,14 @@ function sendXCP_opreturn(add_from, add_to, asset, asset_total, btc_total, trans
         
         $.each(data, function(i, item) {
             
-             var txid = data[i].txid;
-             var vout = data[i].vout;
-             var script = data[i].scriptPubKey;
+//             var txid = data[i].txid;
+//             var vout = data[i].vout;
+//             var script = data[i].scriptPubKey;
+//             var amount = parseFloat(data[i].amount);
+            
+             var txid = data[i].tx;
+             var vout = data[i].n;
+             var script = data[i].script;
              var amount = parseFloat(data[i].amount);
              
              amountremaining = amountremaining - amount;            

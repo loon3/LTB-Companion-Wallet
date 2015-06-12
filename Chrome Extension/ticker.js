@@ -109,17 +109,26 @@ $( document ).ready(function() {
         $( "#btcbalance" ).html("<div style='font-size: 12px;'>Thinking...</div>");
     
         var addr = $(this).val();
-    
-//    chrome.storage.local.set(
-//                    {
-//                        'lastAddress': addr
-//                    }, function () {
-                    
-        $("#xcpaddress").html(addr);
-    
-        getPrimaryBalance(addr);
+        
+        if (addr == "add") {
+        
+            dynamicAddressDropdown();
+            
+        } else {
+        
+            console.log(addr);
+
+    //    chrome.storage.local.set(
+    //                    {
+    //                        'lastAddress': addr
+    //                    }, function () {
+
+            $("#xcpaddress").html(addr);
+
+            getPrimaryBalance(addr);
                     
 //                    });
+        }
     
     });
     
@@ -459,6 +468,7 @@ $( document ).ready(function() {
         getNews();
         
     });
+    
     
     
 $(document).on('click', '#toolsTab', function () {

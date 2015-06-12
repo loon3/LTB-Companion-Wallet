@@ -42,7 +42,8 @@ function sendBTCpush(hextx) {
 
 function sendBTC(add_from, add_to, sendtotal, transfee) {
     
-    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";
+    //var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";  
+    var source_html = "http://btc.blockr.io/api/v1/address/unspent/"+add_from;
     
     var total_utxo = new Array();   
     var sendtotal_satoshis = parseFloat(sendtotal).toFixed(8) * 100000000;   
@@ -59,9 +60,11 @@ function sendBTC(add_from, add_to, sendtotal, transfee) {
     var privkey = getprivkey(add_from, mnemonic);
     
     
-    $.getJSON( source_html, function( data ) {
+    $.getJSON( source_html, function( apidata ) {
         
         var amountremaining = (parseFloat(sendtotal) + parseFloat(transfee));
+        
+        var data = apidata.data.unspent;
         
         data.sort(function(a, b) {
             return b.amount - a.amount;
@@ -69,9 +72,14 @@ function sendBTC(add_from, add_to, sendtotal, transfee) {
         
         $.each(data, function(i, item) {
             
-             var txid = data[i].txid;
-             var vout = data[i].vout;
-             var script = data[i].scriptPubKey;
+//             var txid = data[i].txid;
+//             var vout = data[i].vout;
+//             var script = data[i].scriptPubKey;
+//             var amount = parseFloat(data[i].amount);
+            
+             var txid = data[i].tx;
+             var vout = data[i].n;
+             var script = data[i].script;
              var amount = parseFloat(data[i].amount);
              
              amountremaining = amountremaining - amount;            

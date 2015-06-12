@@ -28,7 +28,12 @@ v0.3.1 - Now using op_return for send txs, asset to token terminology change, LT
 
 v0.3.2 - Fixes XCP NaN bug, LTBn Directory updated
 
-v0.4.0 - Tip Button for letstalkbitcoin.com (not yet in Chrome Web Store)
+v0.4.0 - Tip Button for letstalkbitcoin.com
+
+v0.4.1 - Add Tokenly.co permission for tip button
+
+v0.4.2 - Replace Insight API with Blockr API
+
 
 ## Features
 

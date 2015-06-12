@@ -209,11 +209,15 @@ function getBTCBalance(pubkey) {
     
     //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
     
-    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+    var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;
     
-    $.getJSON( source_html, function( data ) { 
+    //var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+    
+    $.getJSON( source_html, function( apidata ) { 
+   
+        //var bitcoinparsed = parseFloat(apidata.data.balance) / 100000000;
         
-        var bitcoinparsed = parseFloat(data) / 100000000;
+        var bitcoinparsed = parseFloat(apidata.data.balance);
         
         //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
         
@@ -222,7 +226,9 @@ function getBTCBalance(pubkey) {
         
         $("#btcbalhide").html(bitcoinparsed);
         
-        var transactions = (parseFloat(data) / 15470) ;
+        //var transactions = (parseFloat(apidata.data.balance) / 15470) ;
+        
+        var transactions = (parseFloat(apidata.data.balance) / 0.0001547) ;
         
         //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547;
         
@@ -342,11 +348,16 @@ function getPrimaryBalanceBTC(pubkey){
     //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
     //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
     
-    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
-    
-    $.getJSON( source_html, function( data ) { 
         
-        var bitcoinparsed = parseFloat(data) / 100000000;
+    var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;
+    
+    //var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+    
+    $.getJSON( source_html, function( apidata ) { 
+        
+        //var bitcoinparsed = parseFloat(apidata.data.balance) / 100000000;
+        
+        var bitcoinparsed = parseFloat(apidata.data.balance);
         //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
         
         $("#xcpbalance").html(bitcoinparsed + "<br><div style='font-size: 22px; font-weight: bold;'>BTC</div>");
@@ -470,12 +481,52 @@ function assetDropdown(m)
         
         $(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
     }
+    
+    $(".addressselect").append("<option label='Add New Address'>add</option>");
+}
+
+
+function dynamicAddressDropdown()
+{
+      
+    var string = $("#newpassphrase").html();
+    var array = string.split(" ");
+    m = new Mnemonic(array);
+    
+    var currentsize = $('#walletaddresses option').size(); 
+    
+    $(".addressselect").html("");  
+    
+    var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
+                     
+    for (var i = 0; i < currentsize; i++) {
+                            
+        var derived = HDPrivateKey.derive("m/0'/0/" + i);
+        var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
+                           
+        var pubkey = address1.toString();
+                            
+        //$(".addressselect").append("<option label='"+pubkey.slice(0,8)+"...'>"+pubkey+"</option>");
+        
+        $(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
+    }
+    
+    $(".addressselect").append("<option label='Add New Address'>add</option>");
+       
+    var newaddress_position = parseInt(currentsize) - 1;
+    var newaddress_select = "#walletaddresses option:eq("+newaddress_position+")";
+    
+    var newaddress_val = $(newaddress_select).val();
+    $("#xcpaddress").html(newaddress_val);
+    getPrimaryBalance(newaddress_val);
+    
+    $(newaddress_select).attr('selected', 'selected');
+    
 }
 
 function newPassphrase()
 {
-    
-    
+     
     m = new Mnemonic(128);
     m.toWords();
     var str = m.toWords().toString();
@@ -503,6 +554,8 @@ function newPassphrase()
 }
 
 function existingPassphrase(string) {
+    
+    
     
     string = string.replace(/\s{2,}/g, ' ');
     var array = string.split(" ");
