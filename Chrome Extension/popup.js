@@ -468,9 +468,12 @@ function assetDropdown(m)
     $(".addressselect").html("");
     
     var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
-                
-                 
-    for (var i = 0; i < 5; i++) {
+     
+    chrome.storage.local.get(function(data) {
+              
+        var totaladdress = data["totaladdress"];
+        
+        for (var i = 0; i < totaladdress; i++) {
                             
         var derived = HDPrivateKey.derive("m/0'/0/" + i);
         var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
@@ -483,6 +486,10 @@ function assetDropdown(m)
     }
     
     $(".addressselect").append("<option label='Add New Address'>add</option>");
+        
+    }); 
+                 
+    
 }
 
 
@@ -519,6 +526,10 @@ function dynamicAddressDropdown()
     var newaddress_val = $(newaddress_select).val();
     $("#xcpaddress").html(newaddress_val);
     getPrimaryBalance(newaddress_val);
+    
+    //add to memory
+    
+    addTotalAddress();
     
     $(newaddress_select).attr('selected', 'selected');
     
@@ -929,6 +940,71 @@ function sendtokenaction() {
 }
 
 
+function resetFive() {
+    
+    chrome.storage.local.set(
+                    {
+                        'totaladdress': 5,
+                    }, function(){
+                    
+                    
+                    var string = $("#newpassphrase").html();
+                    var array = string.split(" ");
+                    m = new Mnemonic(array);
+                        
+                    assetDropdown(m);
+                    $('#allTabs a:first').tab('show');
+                    
+                    });
+    
+}
+
+function setInitialAddressCount() {
+    
+       chrome.storage.local.get(function(data) {
+        
+        if(typeof(data["totaladdress"]) !== 'undefined') { 
+           //already set
+            var newtotal = parseInt(data["totaladdress"]);
+        } else {
+            var newtotal = 5;
+        }
+        
+       //var newtotal = parseInt(data.totaladdress) + 1;
+       
+       chrome.storage.local.set(
+                    {
+                        'totaladdress': newtotal 
+                    }, function () {
+                    
+                       //show new address
+                    
+                    });  
+    });  
+    
+    
+}
+
+function addTotalAddress() {
+    
+    chrome.storage.local.get(function(data) {
+        
+        
+        var newtotal = parseInt(data["totaladdress"]) + 1;
+      
+        chrome.storage.local.set(
+                    {
+                        'totaladdress': newtotal 
+                    }, function () {
+                    
+                       //show new address
+                    
+                    });   
+        
+        
+    });
+        
+}
 
 
 //function setUnconfirmed(sendaddress, sendasset, sendamount) {

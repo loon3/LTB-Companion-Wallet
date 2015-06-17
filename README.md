@@ -32,7 +32,7 @@ v0.4.0 - Tip Button for letstalkbitcoin.com
 
 v0.4.1 - Add Tokenly.co permission for tip button
 
-v0.4.2 - Replace Insight API with Blockr API
+v0.4.2 - Replace Insight API with Blockr API, add tokenly.com content script permission
 
 
 ## Features

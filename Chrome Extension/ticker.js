@@ -1,7 +1,9 @@
 var bitcore = require('bitcore');
 
 $( document ).ready(function() {   
-                
+    
+    setInitialAddressCount();
+    
     setPinBackground();
     
     $('#alltransactions').hide();
@@ -255,6 +257,11 @@ $( document ).ready(function() {
     $('.resetAddress').click(function ()
         {
             newPassphrase();
+        });
+    
+    $('.resetFive').click(function ()
+        {
+            resetFive();
         });
     
     $('#revealPassphrase').click( function ()
