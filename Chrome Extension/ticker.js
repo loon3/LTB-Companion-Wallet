@@ -114,7 +114,15 @@ $( document ).ready(function() {
         
         if (addr == "add") {
         
-            dynamicAddressDropdown();
+//            chrome.storage.local.get(function(data) {
+//
+//                var addresslabels = data["addressinfo"];
+                
+                //dynamicAddressDropdown(addresslabels);
+                
+                addTotalAddress(dynamicAddressDropdown);
+
+//            }); 
             
         } else {
         
@@ -342,9 +350,31 @@ $( document ).ready(function() {
         });
 
     
+    $(document).on("click", '#saveLabelButton', function (event)
+      {
+          
+          var newlabel = $("#newPocketLabel").val();
+          
+          var labelfixed = newlabel.replace(/'/g, '');
+
+          insertAddressLabel(labelfixed, dynamicAddressDropdown); 
+          
+      });
  
+     $(document).on("click", '#newLabelButton', function (event)
+      {
+          
+          var currentlabel = $('select option:selected').attr('label');
+          $("#newPocketLabel").val(currentlabel.slice(0, -18));
+          $("#addresslabeledit").toggle();
+          $("#pocketdropdown").toggle();
+          
+      });
+    
   $(document).on("click", '#refreshWallet', function (event)
   {
+      
+
       $("#ltbDirectorySearchResults").html("");
       $("#ltbUserSearch").val("");
       //$("#searchLTBuser").text("Search");

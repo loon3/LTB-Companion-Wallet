@@ -1,4 +1,3 @@
-
 function getNews(){
      var source_html = "https://letstalkbitcoin.com/api/v1/blog/posts?limit=5";
       
@@ -473,16 +472,18 @@ function assetDropdown(m)
               
         var totaladdress = data["totaladdress"];
         
+        var addresslabels = data["addressinfo"];
+        
         for (var i = 0; i < totaladdress; i++) {
                             
         var derived = HDPrivateKey.derive("m/0'/0/" + i);
         var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
                            
         var pubkey = address1.toString();
-                            
-        //$(".addressselect").append("<option label='"+pubkey.slice(0,8)+"...'>"+pubkey+"</option>");
-        
-        $(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
+  
+        $(".addressselect").append("<option label='"+addresslabels[i].label+" - "+pubkey.slice(0,12)+"...'>"+pubkey+"</option>");
+
+        //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
     }
     
     $(".addressselect").append("<option label='Add New Address'>add</option>");
@@ -493,7 +494,7 @@ function assetDropdown(m)
 }
 
 
-function dynamicAddressDropdown()
+function dynamicAddressDropdown(addresslabels, type)
 {
       
     var string = $("#newpassphrase").html();
@@ -501,6 +502,11 @@ function dynamicAddressDropdown()
     m = new Mnemonic(array);
     
     var currentsize = $('#walletaddresses option').size(); 
+    
+    if (type == "newlabel") {
+        currentsize = currentsize - 1;
+        var addressindex = $("#walletaddresses option:selected").index();
+    } 
     
     $(".addressselect").html("");  
     
@@ -512,25 +518,25 @@ function dynamicAddressDropdown()
         var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
                            
         var pubkey = address1.toString();
-                            
-        //$(".addressselect").append("<option label='"+pubkey.slice(0,8)+"...'>"+pubkey+"</option>");
         
-        $(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
+        //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
+        
+        $(".addressselect").append("<option label='"+addresslabels[i].label+" - "+pubkey.slice(0,12)+"...'>"+pubkey+"</option>");
     }
     
     $(".addressselect").append("<option label='Add New Address'>add</option>");
        
-    var newaddress_position = parseInt(currentsize) - 1;
+    if (type == "newaddress") {
+        var newaddress_position = parseInt(currentsize) - 1;
+        var newaddress_val = $(newaddress_select).val();
+        $("#xcpaddress").html(newaddress_val);
+        getPrimaryBalance(newaddress_val);
+    } else {
+        var newaddress_position = addressindex;
+    }
+    
+    
     var newaddress_select = "#walletaddresses option:eq("+newaddress_position+")";
-    
-    var newaddress_val = $(newaddress_select).val();
-    $("#xcpaddress").html(newaddress_val);
-    getPrimaryBalance(newaddress_val);
-    
-    //add to memory
-    
-    addTotalAddress();
-    
     $(newaddress_select).attr('selected', 'selected');
     
 }
@@ -547,14 +553,19 @@ function newPassphrase()
     $("#newpassphrase").html(phraseList);
     $("#yournewpassphrase").html(phraseList);
     
+    var addressinfo = [{label:"Address 1"},{label:"Address 2"},{label:"Address 3"},{label:"Address 4"},{label:"Address 5"}];        
+    
     chrome.storage.local.set(
                     {
                         'passphrase': phraseList,
                         'encrypted': false,
-                        'firstopen': false
+                        'firstopen': false,
+                        'addressinfo': addressinfo,
+                        'totaladdress': 5
                         
                     }, function () {
                         
+                        //resetFive();
                         $(".hideEncrypted").show();
                         convertPassphrase(m);
                         assetDropdown(m);
@@ -942,9 +953,12 @@ function sendtokenaction() {
 
 function resetFive() {
     
+    var addressinfo = [{label:"Address 1"},{label:"Address 2"},{label:"Address 3"},{label:"Address 4"},{label:"Address 5"}];
+    
     chrome.storage.local.set(
                     {
                         'totaladdress': 5,
+                        'addressinfo': addressinfo
                     }, function(){
                     
                     
@@ -968,13 +982,24 @@ function setInitialAddressCount() {
             var newtotal = parseInt(data["totaladdress"]);
         } else {
             var newtotal = 5;
+            
         }
-        
-       //var newtotal = parseInt(data.totaladdress) + 1;
+           
+        if(typeof(data["addressinfo"]) !== 'undefined') { 
+           //already set
+           var addressinfo = data["addressinfo"]; 
+        } else {
+            
+            var addressinfo = [{label:"Address 1"},{label:"Address 2"},{label:"Address 3"},{label:"Address 4"},{label:"Address 5"}];
+            
+        }
+
        
        chrome.storage.local.set(
                     {
-                        'totaladdress': newtotal 
+                        'totaladdress': newtotal,
+                        'addressinfo': addressinfo
+                        
                     }, function () {
                     
                        //show new address
@@ -985,19 +1010,53 @@ function setInitialAddressCount() {
     
 }
 
-function addTotalAddress() {
+function addTotalAddress(callback) {
     
     chrome.storage.local.get(function(data) {
         
         
         var newtotal = parseInt(data["totaladdress"]) + 1;
+        
+        var addressinfo = data["addressinfo"];
+        var newlabel = "Address "+newtotal;
+        
+        addressinfo.push({label:newlabel});
       
         chrome.storage.local.set(
                     {
-                        'totaladdress': newtotal 
+                        'totaladdress': newtotal,
+                        'addressinfo': addressinfo
                     }, function () {
                     
-                       //show new address
+                       callback(addressinfo, "newaddress");
+                    
+                    });   
+        
+        
+    });
+        
+}
+
+function insertAddressLabel(newlabel, callback) {
+     
+    chrome.storage.local.get(function(data) {
+        
+        var addressinfo = data["addressinfo"];
+        
+        var addressindex = $("#walletaddresses option:selected").index();
+
+        addressinfo[addressindex].label = newlabel;
+      
+        chrome.storage.local.set(
+                    {
+                        'addressinfo': addressinfo
+                    }, function () {
+                    
+                       
+                            $("#addresslabeledit").toggle();
+                            $("#pocketdropdown").toggle();
+                            
+                            callback(addressinfo, "newlabel");
                     
                     });   
         

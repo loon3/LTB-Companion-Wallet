@@ -201,6 +201,12 @@ a {
 
 }
 
+#newLabelButton 
+{
+    cursor: pointer;
+
+}
+
 #addresscopied
 {
     display: none;
@@ -282,6 +288,12 @@ a {
 .singleasset {
     background-color: #23688F;
     color: #fff;
+    padding: 4px 0 4px 0;
+    margin: 4px 0 4px 0;
+    border: 3px solid #67B5E0;
+}
+
+.singleaddress {
     padding: 4px 0 4px 0;
     margin: 4px 0 4px 0;
     border: 3px solid #67B5E0;
