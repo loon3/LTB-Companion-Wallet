@@ -229,6 +229,10 @@ function getBTCBalance(pubkey) {
         
         var transactions = (parseFloat(apidata.data.balance) / 0.0001547) ;
         
+        if (transactions < 1) {
+            transactions = 0;
+        }
+        
         //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547;
         
         //if (transactions >= 2) {// to include escrow amount req'd and tx fee
