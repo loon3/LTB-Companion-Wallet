@@ -46,5 +46,5 @@
    "name": "LTB Companion Wallet",
    "permissions": [ "storage", "clipboardWrite" ],
    "short_name": "LTB Companion Wallet",
-   "version": "0.4.3"
+   "version": "0.4.4"
 }

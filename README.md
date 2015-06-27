@@ -36,6 +36,7 @@ v0.4.2 - Replace Insight API with Blockr API, add tokenly.com content script per
 
 v0.4.3 - Revert to Insight API to enable multiple unconfirmed sends, Address Labels for Tip Button window
 
+v0.4.4 - Address dropdown formatting, check BTC balance when adding new address
 
 ## Features
 

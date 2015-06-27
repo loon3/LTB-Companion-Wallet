@@ -540,6 +540,8 @@ function dynamicAddressDropdown(addresslabels, type)
         $(".addressselect").append("<option label='"+addresslabels[i].label+"' title='"+pubkey+"'>"+pubkey+"</option>");
     }
     
+    getBTCBalance(pubkey);
+    
     $(".addressselect").append("<option label='--- Add New Address ---'>add</option>");
        
     if (type == "newaddress") {

@@ -109,7 +109,6 @@ $( document ).ready(function() {
     $( "#walletaddresses" ).change(function () {
         
         
-      
         
         $( "#btcbalance" ).html("<div style='font-size: 12px;'>Thinking...</div>");
     
