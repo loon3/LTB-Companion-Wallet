@@ -492,12 +492,17 @@ function assetDropdown(m)
                            
         var pubkey = address1.toString();
   
-        $(".addressselect").append("<option label='"+addresslabels[i].label+" - "+pubkey.slice(0,12)+"...'>"+pubkey+"</option>");
+        $(".addressselect").append("<option label='"+addresslabels[i].label+"' title='"+pubkey+"'>"+pubkey+"</option>");
+        
+        if (i == 0) {
+            $(".addressselect").attr("title",pubkey);    
+        }
+            //.slice(0,12)
 
         //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
     }
     
-    $(".addressselect").append("<option label='Add New Address'>add</option>");
+    $(".addressselect").append("<option label='--- Add New Address ---'>add</option>");
         
     }); 
                  
@@ -532,10 +537,10 @@ function dynamicAddressDropdown(addresslabels, type)
         
         //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
         
-        $(".addressselect").append("<option label='"+addresslabels[i].label+" - "+pubkey.slice(0,12)+"...'>"+pubkey+"</option>");
+        $(".addressselect").append("<option label='"+addresslabels[i].label+"' title='"+pubkey+"'>"+pubkey+"</option>");
     }
     
-    $(".addressselect").append("<option label='Add New Address'>add</option>");
+    $(".addressselect").append("<option label='--- Add New Address ---'>add</option>");
        
     if (type == "newaddress") {
         var newaddress_position = parseInt(currentsize) - 1;

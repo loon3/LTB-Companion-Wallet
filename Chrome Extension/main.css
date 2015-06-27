@@ -383,6 +383,7 @@ box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
 }
 .addressselect {
     margin: 5px;
+    width: 210px;
 }
 
 #switchtoxcp {

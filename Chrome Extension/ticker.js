@@ -108,9 +108,14 @@ $( document ).ready(function() {
     
     $( "#walletaddresses" ).change(function () {
         
+        
+      
+        
         $( "#btcbalance" ).html("<div style='font-size: 12px;'>Thinking...</div>");
     
         var addr = $(this).val();
+        
+        $( ".addressselect" ).attr("title", addr)
         
         if (addr == "add") {
         
@@ -365,7 +370,7 @@ $( document ).ready(function() {
       {
           
           var currentlabel = $('select option:selected').attr('label');
-          $("#newPocketLabel").val(currentlabel.slice(0, -18));
+          $("#newPocketLabel").val(currentlabel); //.slice(0, -18)
           $("#addresslabeledit").toggle();
           $("#pocketdropdown").toggle();
           
