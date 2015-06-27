@@ -32,7 +32,9 @@ v0.4.0 - Tip Button for letstalkbitcoin.com
 
 v0.4.1 - Add Tokenly.co permission for tip button
 
-v0.4.2 - Replace Insight API with Blockr API, add tokenly.com content script permission, Add New Address
+v0.4.2 - Replace Insight API with Blockr API, add tokenly.com content script permission, Add New Address, Address Labels
+
+v0.4.3 - Revert to Insight API to enable multiple unconfirmed sends, Address Labels for Tip Button window
 
 
 ## Features

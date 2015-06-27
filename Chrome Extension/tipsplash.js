@@ -124,31 +124,70 @@ function convertPassphrase(m){
     
 }
 
+//function assetDropdown(m)
+//{
+//    $(".addressselect").html("");
+//    
+//    var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
+//                
+//                 
+//    for (var i = 0; i < 5; i++) {
+//                            
+//        var derived = HDPrivateKey.derive("m/0'/0/" + i);
+//        var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
+//                           
+//        var pubkey = address1.toString();
+//                            
+//        //$(".addressselect").append("<option label='"+pubkey.slice(0,8)+"...'>"+pubkey+"</option>");
+//        
+//        $(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
+//        
+//        if (i == 0) {
+//            $("#xcpaddress").html(pubkey);
+//            getAssetsandBalances(pubkey);
+//            
+//        }
+//    }
+//}
+
+
 function assetDropdown(m)
 {
     $(".addressselect").html("");
     
     var HDPrivateKey = bitcore.HDPrivateKey.fromSeed(m.toHex(), bitcore.Networks.livenet);
-                
-                 
-    for (var i = 0; i < 5; i++) {
+     
+    chrome.storage.local.get(function(data) {
+              
+        var totaladdress = data["totaladdress"];
+        
+        var addresslabels = data["addressinfo"];
+        
+        for (var i = 0; i < totaladdress; i++) {
                             
         var derived = HDPrivateKey.derive("m/0'/0/" + i);
         var address1 = new bitcore.Address(derived.publicKey, bitcore.Networks.livenet);
                            
         var pubkey = address1.toString();
-                            
-        //$(".addressselect").append("<option label='"+pubkey.slice(0,8)+"...'>"+pubkey+"</option>");
-        
-        $(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
-        
+  
+        $(".addressselect").append("<option label='"+addresslabels[i].label+" - "+pubkey.slice(0,12)+"...'>"+pubkey+"</option>");
+
+            
         if (i == 0) {
             $("#xcpaddress").html(pubkey);
             getAssetsandBalances(pubkey);
             
         }
+        //$(".addressselect").append("<option label='"+pubkey+"'>"+pubkey+"</option>");
     }
+    
+    //$(".addressselect").append("<option label='Add New Address'>add</option>");
+        
+    }); 
+                 
+    
 }
+
 
 
 
@@ -337,6 +376,7 @@ function getAssetsandBalances(add) {
 function getBTCBalance(pubkey, callback) {
     
     var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+    //var source_html = "https://chain.localbitcoins.com/api/addr/"+pubkey+"/balance";
     
     $.getJSON( source_html, function( data ) { 
         
@@ -502,7 +542,8 @@ function sendtokenaction() {
 
 function sendBTCsplash(add_from, add_to, sendtotal, transfee) {
     
-    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";
+    var source_html = "https://insight.bitpay.com/api/addr/"+add_from+"/utxo";     
+    //var source_html = "https://chain.localbitcoins.com/api/addr/"+add_from+"/utxo";
     
     var total_utxo = new Array();   
     var sendtotal_satoshis = parseFloat(sendtotal).toFixed(8) * 100000000;   
