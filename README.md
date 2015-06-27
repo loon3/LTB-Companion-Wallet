@@ -38,6 +38,8 @@ v0.4.3 - Revert to Insight API to enable multiple unconfirmed sends, Address Lab
 
 v0.4.4 - Address dropdown formatting, check BTC balance when adding new address
 
+v0.4.5 - Minor formatting
+
 ## Features
 
 - Send Bitcoin and Counterparty assets

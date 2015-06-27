@@ -101,6 +101,11 @@ a {
     filter: alpha(opacity=99); */
 }
 
+#sendtoaddress {
+    
+    font-size: 12px;
+    
+}
 
 #priceBox
     {
@@ -382,8 +387,8 @@ box-shadow: 5px 5px 5px -2px rgba(0,0,0,0.75);
 
 }
 .addressselect {
-    margin-left: 5px;
-    width: 210px;
+    margin-left: 10px;
+    width: 260px;
 }
 
 #switchtoxcp {

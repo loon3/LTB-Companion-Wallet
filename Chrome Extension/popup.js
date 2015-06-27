@@ -92,7 +92,7 @@ function setPinBackground() {
                     var bg_link = "url('/pin_bg/"+randomBackground+".jpg')";
             
                     $("#pinsplash").css("background-image", bg_link);
-                    $("#pinsplash").css("background-size", "330px 330px"); 
+                    $("#pinsplash").css("background-size", "330px 350px"); 
 
 }
     
