@@ -210,6 +210,9 @@ function getBTCBalance(pubkey) {
     
     //var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;
     
+    
+    $("#isbtcloading").html("true");
+    
     var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
     //var source_html = "https://chain.localbitcoins.com/api/addr/"+pubkey+"/balance";
     
@@ -226,7 +229,7 @@ function getBTCBalance(pubkey) {
         //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
         
         
-        
+        $("#isbtcloading").html("false");
         
         $("#btcbalhide").html(bitcoinparsed);
         
@@ -653,12 +656,14 @@ function manualPassphrase(passphrase) {
 
 
 function loadAssets(add) {
-    
+      
     //var source_html = "http://xcp.blockscan.com/api2?module=address&action=balance&btc_address="+add;
     
     var source_html = "https://counterpartychain.io/api/balances/"+add;
     
     var xcp_source_html = "http://counterpartychain.io/api/address/"+add;
+    
+    var btc_source_html = "https://insight.bitpay.com/api/addr/"+add+"/balance";
     
     $( "#alltransactions" ).html("");
     
@@ -674,9 +679,34 @@ function loadAssets(add) {
     
         $.getJSON( source_html, function( data ) {
         
-            var btcbalance = $("#btcbalhide").html();
+            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqty' id='btcassetbal'></div></div></div>");
+            
+            
+            var isbtcloading = $("#isbtcloading").html();
+            
+            if (isbtcloading == "true") {
+    
+                var btcbalance = "...";
+                
+                $("#btcassetbal").html(btcbalance);
+
+                $.getJSON( btc_source_html, function( data_btc ) { 
+      
+                    var bitcoinparsed = parseFloat(data_btc) / 100000000;
+         
+                    $("#isbtcloading").html("false");
         
-            $( "#allassets" ).html("<div class='btcasset row'><div class='col-xs-2' style='margin-left: -10px;'><img src='bitcoin_48x48.png'></div><div class='col-xs-10'><div class='assetname'>BTC</div><div class='movetowallet'>Send</div><div class='assetqty'>"+btcbalance+"</div></div></div>");
+                    $("#btcassetbal").html(bitcoinparsed);
+                    
+                });
+                
+            } else {
+                
+                var btcbalance = $("#btcbalhide").html();
+                $("#btcassetbal").html(btcbalance);
+                
+            }
+            
             
             var xcpicon = "http://counterpartychain.io/content/images/icons/xcp.png";
             
