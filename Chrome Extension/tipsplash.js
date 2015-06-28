@@ -374,24 +374,60 @@ function getAssetsandBalances(add) {
 }
 
 function getBTCBalance(pubkey, callback) {
+
     
-    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
+    
+    var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;  //blockr
+    
+    //var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
     //var source_html = "https://chain.localbitcoins.com/api/addr/"+pubkey+"/balance";
-    
-    $.getJSON( source_html, function( data ) { 
-        
-        var bitcoinparsed = parseFloat(data) / 100000000;     
-        
+
+    //$.getJSON( source_html, function( data ) { //insight
+    $.getJSON( source_html, function( apidata ) {  //blockr
+
+        //var bitcoinparsed = parseFloat(data) / 100000000; //insight
+        var bitcoinparsed = parseFloat(apidata.data.balance); //blockr
+        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8); //chainso
+         
         $("#btcbalhide").html(bitcoinparsed);
         
-        var transactions = (parseFloat(data) / 15470) ;
+        //var transactions = (parseFloat(data) / 15470) ; //insight
+        //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547; //chainso
+        var transactions = (parseFloat(apidata.data.balance) / 0.0001547) ; //blockr
+        
+        if (transactions < 1) {
+            transactions = 0;
+        }
         
         showBTCtransactions(transactions);
         
         callback();
-            
+             
     });
 }
+
+
+
+//function getBTCBalance(pubkey, callback) {
+//    
+//    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+//    //var source_html = "https://chain.localbitcoins.com/api/addr/"+pubkey+"/balance";
+//    
+//    $.getJSON( source_html, function( data ) { 
+//        
+//        var bitcoinparsed = parseFloat(data) / 100000000;     
+//        
+//        $("#btcbalhide").html(bitcoinparsed);
+//        
+//        var transactions = (parseFloat(data) / 15470) ;
+//        
+//        showBTCtransactions(transactions);
+//        
+//        callback();
+//            
+//    });
+//}
 
 function showBTCtransactions(transactions) {
     

@@ -624,8 +624,16 @@ $(document).on('click', '#toolsTab', function () {
         
     });
     
-    
-    
+//    $(document).on("click", '.primarytokenoption', function (event) {  
+//        
+//        var clickedtoken = $(this).html();
+//        
+//        $(".currentprimarytoken").html(clickedtoken);
+//        
+//        $("#currenttoken").html(clickedtoken);
+//        
+//    });
+//    
     
                 
     

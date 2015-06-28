@@ -231,6 +231,11 @@ a {
     color: #fff;
 }
 
+.scrollable-primarytoken-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
 
 
 #addressBox

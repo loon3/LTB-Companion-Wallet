@@ -40,6 +40,8 @@ v0.4.4 - Address dropdown formatting, check BTC balance when adding new address
 
 v0.4.5 - Minor formatting, BTC balance check during Asset loading
 
+v0.4.6 - API change (Blockr for BTC balance, Insight for UTXOs)
+
 ## Features
 
 - Send Bitcoin and Counterparty assets

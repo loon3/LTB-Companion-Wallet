@@ -203,58 +203,37 @@ function qrdepositDropdown() {
             $("#btcbalbox").show();
 }
 
+
+
 function getBTCBalance(pubkey) {
-    //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
-    
-    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
-    
-    //var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;
-    
+
+    //var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+    //var source_html = "https://chain.localbitcoins.com/api/addr/"+pubkey+"/balance";
+    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;  
+    var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;  //blockr
     
     $("#isbtcloading").html("true");
     
-    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
-    //var source_html = "https://chain.localbitcoins.com/api/addr/"+pubkey+"/balance";
-    
-    
-    
-    $.getJSON( source_html, function( data ) { 
-    //$.getJSON( source_html, function( apidata ) { 
+    //$.getJSON( source_html, function( data ) { //insight
+    $.getJSON( source_html, function( apidata ) {  //blockr
         
-   
-        var bitcoinparsed = parseFloat(data) / 100000000;
-        
-        //var bitcoinparsed = parseFloat(apidata.data.balance);
-        
-        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
-        
-        
-        $("#isbtcloading").html("false");
-        
+        //var bitcoinparsed = parseFloat(data) / 100000000; //insight
+        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8); //chainso
+        var bitcoinparsed = parseFloat(apidata.data.balance); //blockr
+             
+        $("#isbtcloading").html("false"); 
         $("#btcbalhide").html(bitcoinparsed);
         
-        var transactions = (parseFloat(data) / 15470) ;
-        
-        //var transactions = (parseFloat(apidata.data.balance) / 0.0001547) ;
+        //var transactions = (parseFloat(data) / 15470) ; //insight
+        //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547; //chainso
+        var transactions = (parseFloat(apidata.data.balance) / 0.0001547) ; //blockr
         
         if (transactions < 1) {
             transactions = 0;
         }
         
-        //var transactions = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance))/ 0.0001547;
-        
-        //if (transactions >= 2) {// to include escrow amount req'd and tx fee
-        
-           showBTCtransactions(transactions);
-            
-        //} 
-        
-//        else {
-//            
-//           qrdepositDropdown(); 
-//            
-//        }
-        
+        showBTCtransactions(transactions);
+       
     });
 }
 
@@ -357,21 +336,17 @@ if (currenttoken == "XCP") {
 function getPrimaryBalanceBTC(pubkey){
         
     //var source_html = "https://blockchain.info/q/addressbalance/"+pubkey;
-    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;
-    
-        
-    //var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;
-    
-    var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
+    //var source_html = "https://chain.so/api/v2/get_address_balance/BTC/"+pubkey;    
+    var source_html = "http://btc.blockr.io/api/v1/address/info/"+pubkey;
+    //var source_html = "https://insight.bitpay.com/api/addr/"+pubkey+"/balance";
     //var source_html = "https://chain.localbitcoins.com/api/addr/"+pubkey+"/balance";
     
-    //$.getJSON( source_html, function( apidata ) { 
-    $.getJSON( source_html, function( data ) { 
+    $.getJSON( source_html, function( apidata ) {  //blockr
+    //$.getJSON( source_html, function( data ) {  //insight
         
-        var bitcoinparsed = parseFloat(data) / 100000000;
-        //var bitcoinparsed = parseFloat(apidata.data.balance);
-        
-        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8);
+        //var bitcoinparsed = parseFloat(data) / 100000000; //insight
+        var bitcoinparsed = parseFloat(apidata.data.balance); //blockr
+        //var bitcoinparsed = (parseFloat(data.data.confirmed_balance) + parseFloat(data.data.unconfirmed_balance)).toFixed(8); //chainso
         
         $("#xcpbalance").html(bitcoinparsed + "<br><div style='font-size: 22px; font-weight: bold;'>BTC</div>");
         
@@ -543,11 +518,13 @@ function dynamicAddressDropdown(addresslabels, type)
         $(".addressselect").append("<option label='"+addresslabels[i].label+"' title='"+pubkey+"'>"+pubkey+"</option>");
     }
     
-    getBTCBalance(pubkey);
+  
+    
     
     $(".addressselect").append("<option label='--- Add New Address ---'>add</option>");
        
     if (type == "newaddress") {
+        getBTCBalance(pubkey);
         var newaddress_position = parseInt(currentsize) - 1;
         var newaddress_val = $(newaddress_select).val();
         $("#xcpaddress").html(newaddress_val);
