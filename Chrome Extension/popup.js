@@ -384,26 +384,53 @@ function getPrimaryBalance(pubkey){
 function getRate(assetbalance, pubkey, currenttoken){
     
     if ($("#ltbPrice").html() == "...") {
+        
+        
+    $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
     
-    $.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
-  
-        var ltbprice = 1 / parseFloat(data.usd_ltb);     
-        
-        $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
-        $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
+     $.each(data, function(i, item) {
+         var assetname = data[i].short;
+         if (assetname == "LTBC") {
+            var ltbprice = 1 / parseFloat(data[i].price);
             
-        if (currenttoken == "LTBCOIN") {
-            var usdValue = parseFloat(data.usd_ltb) * parseFloat(assetbalance);
+            $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
+            $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
+
+            if (currenttoken == "LTBCOIN") {
+                var usdValue = parseFloat(data[i].price) * parseFloat(assetbalance);
+
+                $("#xcpfiatValue").html(usdValue.toFixed(2)); 
+                $("#switchtoxcp").hide();
+                $("#fiatvaluebox").show();
+            } else {
+                $("#fiatvaluebox").hide();
+                $("#switchtoxcp").show();
+            }
+         }
+         
+            
         
-            $("#xcpfiatValue").html(usdValue.toFixed(2)); 
-            $("#switchtoxcp").hide();
-            $("#fiatvaluebox").show();
-        } else {
-            $("#fiatvaluebox").hide();
-            $("#switchtoxcp").show();
-        }
-        
-        
+    });
+    
+//    $.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
+//  
+//        var ltbprice = 1 / parseFloat(data.usd_ltb);     
+//        
+//        $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
+//        $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
+//            
+//        if (currenttoken == "LTBCOIN") {
+//            var usdValue = parseFloat(data.usd_ltb) * parseFloat(assetbalance);
+//        
+//            $("#xcpfiatValue").html(usdValue.toFixed(2)); 
+//            $("#switchtoxcp").hide();
+//            $("#fiatvaluebox").show();
+//        } else {
+//            $("#fiatvaluebox").hide();
+//            $("#switchtoxcp").show();
+//        }
+//        
+//        
     });
     
     } else {
