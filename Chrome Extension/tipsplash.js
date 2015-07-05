@@ -296,48 +296,62 @@ function getAssetsandBalances(add) {
     //                    $(".assetselect").append("<li role='presentation'><div style='padding: 10px;'>You have no tokens at this address.</div></li>");
     //                    $("#tokendropdown").hide();
     //                }
+                
+                var assetsataddress = parseFloat(data.total);
 
-                $.each(data.data, function(i, item) {
-                    
-                    var assetname = data.data[i].asset;
+                if (assetsataddress > 0){
 
-                    if (assetname.charAt(0) != "A") {
-                        
-                        if (tokenarray[0] == "ALL" || jQuery.inArray(assetname, tokenarray) !== -1) {
-                        
-                            var assetbalance = data.data[i].amount; //.balance for blockscan
-                            if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+                    $.each(data.data, function(i, item) {
 
-                            var iconname = assetname.toLowerCase();
-                            var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
+                        var assetname = data.data[i].asset;
 
-                            //$("#tokendropdown").show();
+                        if (assetname.charAt(0) != "A") {
 
-                            var assethtml = "<div class='row linkpointer' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
+                            if (tokenarray[0] == "ALL" || jQuery.inArray(assetname, tokenarray) !== -1) {
+
+                                var assetbalance = data.data[i].amount; //.balance for blockscan
+                                if (assetbalance.indexOf(".")==-1) {var divisible = "no";} else {var divisible = "yes";}
+
+                                var iconname = assetname.toLowerCase();
+                                var iconlink = "http://counterpartychain.io/content/images/icons/"+iconname+".png";
+
+                                //$("#tokendropdown").show();
+
+                                var assethtml = "<div class='row linkpointer' style='width: 315px;'><div class='col-xs-2' style='margin-left: -10px;'><img src='"+iconlink+"'></div><div class='col-xs-10'><div class='assetname'>"+assetname+"</div><div>Balance: <span class='assetqty'>"+assetbalance+"</span></div><div id='assetdivisible' style='display: none;'>"+divisible+"</div></div></div>";
 
 
-                            $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1'>"+assethtml+"</a></li>");
+                                $(".assetselect").append("<li role='presentation'><a class='singleasset' role='menuitem' tabindex='-1'>"+assethtml+"</a></li>");
 
-                            var assetdisplayed = $("#assetdisplayed").html();
+                                var assetdisplayed = $("#assetdisplayed").html();
 
-                            if (assetdisplayed.length == 0) {
+                                if (assetdisplayed.length == 0) {
 
-                                $("#assetdisplayed").html(assethtml);
+                                    $("#assetdisplayed").html(assethtml);
+
+                                }
 
                             }
-                            
-                        }
 
-                    } 
-                    
-                	$("#fulldropdown").css( "display", "block" );
-                    //$("#fulldropdown").show();
-                    $("#dropdown-working").css("display", "none");
-                    
-                    
-			        $( "#walletaddresses" ).removeProp( "disabled" );    
+                        } 
 
-                });
+    //                	$("#fulldropdown").css( "display", "block" );
+    //                    //$("#fulldropdown").show();
+    //                    $("#dropdown-working").css("display", "none");
+    //                    
+    //                    
+    //			        $( "#walletaddresses" ).removeProp( "disabled" );    
+
+                    });
+                } 
+                
+                $("#fulldropdown").css( "display", "block" );
+                //$("#fulldropdown").show();
+                $("#dropdown-working").css("display", "none");
+
+
+                $( "#walletaddresses" ).removeProp( "disabled" ); 
+                
+                
                 
                 var assetdisplayed = $("#assetdisplayed").html();
                 
