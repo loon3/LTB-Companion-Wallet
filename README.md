@@ -42,6 +42,8 @@ v0.4.5 - Minor formatting, BTC balance check during Asset loading
 
 v0.4.6 - API change (Blockr for BTC balance, Insight for UTXOs)
 
+v0.4.7 - Fixes Asset display bug in Tip splash
+
 ## Features
 
 - Send Bitcoin and Counterparty assets
