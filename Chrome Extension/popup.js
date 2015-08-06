@@ -386,7 +386,7 @@ function getRate(assetbalance, pubkey, currenttoken){
     if ($("#ltbPrice").html() == "...") {
         
         
-    $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
+    $.getJSON( "http://www.coincap.io/front/", function( data ) {
     
      $.each(data, function(i, item) {
          var assetname = data[i].short;
