@@ -384,20 +384,34 @@ function getPrimaryBalance(pubkey){
 function getRate(assetbalance, pubkey, currenttoken){
     
     if ($("#ltbPrice").html() == "...") {
-        
-        
-    $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
-    
-     $.each(data, function(i, item) {
-         var assetname = data[i].short;
-         if (assetname == "LTBC") {
-            var ltbprice = 1 / parseFloat(data[i].price);
+
+        $.getJSON( "http://quotebot.tokenly.com/api/v1/quote/all?apitoken=T1uHEO1RcULbpyho", function( data ) {
+
+            var usdbtc_tokenly;
+            var btcltbc_tokenly;
             
+            $.each(data.quotes, function(i, item) {
+                
+                if (data.quotes[i].pair == "USD:BTC") {
+                    usdbtc_tokenly = data.quotes[i].last;
+                }
+                
+                if (data.quotes[i].pair == "BTC:LTBC") {
+                    btcltbc_tokenly = data.quotes[i].last;
+                }
+                
+            });
+            
+            
+            var ltbprice = 1 / (usdbtc_tokenly * (btcltbc_tokenly/100000000));
+            
+            console.log(ltbprice);
+                
             $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
             $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
 
             if (currenttoken == "LTBCOIN") {
-                var usdValue = parseFloat(data[i].price) * parseFloat(assetbalance);
+                var usdValue = (1/ltbprice) * parseFloat(assetbalance);
 
                 $("#xcpfiatValue").html(usdValue.toFixed(2)); 
                 $("#switchtoxcp").hide();
@@ -406,11 +420,35 @@ function getRate(assetbalance, pubkey, currenttoken){
                 $("#fiatvaluebox").hide();
                 $("#switchtoxcp").show();
             }
-         }
-         
-            
+
+        });
         
-    });
+//    $.getJSON( "http://www.coincap.io/front/xcp", function( data ) {
+//    
+//            $.each(data, function(i, item) {
+//
+//                var assetname = data[i].short;
+//                 if (assetname == "LTBC") {
+//                    var ltbprice = 1 / parseFloat(data[i].price);
+//
+//                    $("#ltbPrice").html(Number(ltbprice.toFixed(0)).toLocaleString('en'));
+//                    $("#ltbPrice").data("ltbcoin", { price: ltbprice.toFixed(0) });
+//
+//                    if (currenttoken == "LTBCOIN") {
+//                        var usdValue = parseFloat(data[i].price) * parseFloat(assetbalance);
+//
+//                        $("#xcpfiatValue").html(usdValue.toFixed(2)); 
+//                        $("#switchtoxcp").hide();
+//                        $("#fiatvaluebox").show();
+//                    } else {
+//                        $("#fiatvaluebox").hide();
+//                        $("#switchtoxcp").show();
+//                    }
+//                 }
+//
+//            });
+//        
+//    });
     
 //    $.getJSON( "http://joelooney.org/ltbcoin/ltb.php", function( data ) {
 //  
@@ -431,7 +469,7 @@ function getRate(assetbalance, pubkey, currenttoken){
 //        }
 //        
 //        
-    });
+    
     
     } else {
         

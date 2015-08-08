@@ -324,6 +324,9 @@ $( document ).ready(function() {
             $('#manualMnemonic').val("");
             manualPassphrase(passphrase);
         });
+    
+    
+
  
       $(document).on("click", '#depositBTC', function (event)
   {
